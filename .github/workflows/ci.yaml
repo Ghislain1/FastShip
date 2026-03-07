@@ -12,7 +12,11 @@ jobs:
     
     steps:
     - uses: actions/checkout@v4
-    
+
+    - name: Ghislain Paramter
+      run: |
+       ls   
+
     - name: Install uv
       run: |
         curl -LsSf https://astral.sh/uv/install.sh | sh
@@ -21,7 +25,7 @@ jobs:
     - name: Install Python 3.12.4
       run: uv python install 3.12.4
     # Create Environment
-    - name: Create Emviroment(.venv)
+    - name: Create Enviroment(.venv)
       run: |
          uv venv
          source .venv/bin/activate
