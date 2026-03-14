@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 
 from typing import Annotated
 
@@ -14,17 +14,14 @@ router = APIRouter(prefix="/order", tags=["Orders"])
 
 @router.get("/")
 async def hello(token: str):
+    if len(token) > 5:
+        raise HTTPException(501, detail="Number of character of token is too long!! ")
     return {"message": "Hello world------"}
 
 
 @router.get("/security/")
 async def read_items(token: str):
     return {"token": token}
-
-
-@router.post("/")
-async def create_order():
-    return ""
 
 
 @router.get("/user/order/{id}/")

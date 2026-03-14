@@ -25,6 +25,7 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(lifespan=lifespan, title="PizzaDeliveryApp")
+# Create behing the scene endpoint /metrics
 Instrumentator().instrument(app=app).expose(app=app)
 
 # Add Middlewares

@@ -8,11 +8,16 @@ A learning-focused FastAPI repository built around a simple Pizza Delivery API. 
 - uv run ruff check . --fix  ==> ruff must be installed
 - uv pip freeze > requirements.txt ==>  in that file you see all used package
 - uv export --format requirements-txt --no-hashes > requirements.txt ==>  to sync with uv add package 
--  ruff check . ==> Check or lint the  code  to find code spelling
--  docker run -d -p 8000:8000 youimagename ==>  run 
-## External packages
+- ruff check . ==> Check or lint the  code  to find code spelling
+- docker build --tag ghis . ===> creat eimage named ghis
+- docker run -d -p 8000:8000 youimagename ==>  run the image
+- docker-compose up --build ==>   Run  Docker with all custom services
 - 
----
+## External packages
+- prometheus-fastapi-instrumentator:
+  - prometheus for fastapi
+  - Instrumentator().instrument(app).expose(app): provide endpoint /metrics
+ 
 
 
 # Features
