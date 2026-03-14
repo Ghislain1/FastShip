@@ -9,7 +9,7 @@ A learning-focused FastAPI repository built around a simple Pizza Delivery API. 
 - uv pip freeze > requirements.txt ==>  in that file you see all used package
 - uv export --format requirements-txt --no-hashes > requirements.txt ==>  to sync with uv add package 
 -  ruff check . ==> Check or lint the  code  to find code spelling
--  
+-  docker run -d -p 8000:8000 youimagename ==>  run 
 ## External packages
 - 
 ---
