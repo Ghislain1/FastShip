@@ -2,6 +2,8 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 
+# Externe Libs
+from prometheus_fastapi_instrumentator import Instrumentator
 
 # Pizza
 from app.db import create_db_and_tables, seed_db_if_empty
@@ -23,6 +25,7 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(lifespan=lifespan, title="PizzaDeliveryApp")
+Instrumentator().instrument(app=app).expose(app=app)
 
 # Add Middlewares
 app.add_middleware(CustomMiddleware)

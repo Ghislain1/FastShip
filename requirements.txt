@@ -123,6 +123,10 @@ passlib==1.7.4
     # via pizzadeliveryapi
 pluggy==1.6.0
     # via pytest
+prometheus-client==0.24.1
+    # via prometheus-fastapi-instrumentator
+prometheus-fastapi-instrumentator==7.1.0
+    # via pizzadeliveryapi
 psycopg2-binary==2.9.11
     # via pizzadeliveryapi
 pwdlib==0.3.0
@@ -204,6 +208,7 @@ starlette==0.52.1
     # via
     #   fastapi
     #   pizzadeliveryapi
+    #   prometheus-fastapi-instrumentator
 typer==0.21.1
     # via
     #   fastapi-cli

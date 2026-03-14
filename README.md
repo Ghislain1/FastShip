@@ -15,7 +15,12 @@ A learning-focused FastAPI repository built around a simple Pizza Delivery API. 
 ---
 
 
-
+# Features
+- Monitoring mit Prometheus & Grafana 
+  - FastAPI Service monitoren
+  - Metric over Exporters
+  - Libraries
+    - prometheus-fastapi-instrumentator: 
 
 
 ## 🎯 Learning Goals
