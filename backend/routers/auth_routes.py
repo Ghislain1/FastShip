@@ -3,7 +3,7 @@ from pydantic import BaseModel
 from fastapi.security import OAuth2PasswordRequestForm
 from typing import Annotated
 
-from app.core.security import oauth2_scheme
+from backend.core.security import oauth2_scheme
 
 fake_users_db = {
     "johndoe": {

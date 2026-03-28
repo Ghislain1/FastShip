@@ -2,11 +2,11 @@ from typing import Optional, List, TYPE_CHECKING
 from pydantic import EmailStr
 
 if TYPE_CHECKING:
-    from app.models.order import Order  # adjust import path
+    from backend.models.order import Order  # adjust import path
 
 from sqlmodel import Column, Field, Relationship, String
 
-from app.models.base import EntityBase
+from backend.models.base import EntityBase
 
 
 # All fields that are shared by models

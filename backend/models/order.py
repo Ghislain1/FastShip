@@ -1,7 +1,7 @@
 from typing import Optional, TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from app.models.customer import Customer  # adjust import path
+    from backend.models.customer import Customer  # adjust import path
 
 # from enum import Enum
 from sqlmodel import (
@@ -12,10 +12,10 @@ from sqlmodel import (
 )
 
 
-from app.models.base import EntityBase
+from backend.models.base import EntityBase
 
-from app.models.order_status import OrderStatus
-from app.models.pizza_size import PizzaSize
+from backend.models.order_status import OrderStatus
+from backend.models.pizza_size import PizzaSize
 
 
 ORDER_STATUSES = (

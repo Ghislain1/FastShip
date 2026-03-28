@@ -2,7 +2,7 @@ from typing import Optional
 
 from pydantic import EmailStr
 
-from app.models.customer import CustomBase
+from backend.models.customer import CustomBase
 
 
 # https://fastapi.tiangolo.com/tutorial/sql-databases/#heropublic-the-public-data-model

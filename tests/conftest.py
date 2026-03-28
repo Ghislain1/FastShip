@@ -8,7 +8,7 @@ from fastapi.testclient import TestClient
 from sqlmodel import Session, SQLModel, create_engine
 from sqlmodel.pool import StaticPool
 
-from app.main import app
+from backend.main import app
 # from app.models import Customer, Order  # Import your models too
 
 # In-memory SQLite
@@ -37,7 +37,7 @@ def client(session: Session):
         app.dependency_overrides["get_session"] = override_get_session
     else:
         # Common FastAPI pattern
-        from app.db import get_session as get_db_session
+        from backend.db import get_session as get_db_session
 
         app.dependency_overrides[get_db_session] = override_get_session
 

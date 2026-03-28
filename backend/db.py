@@ -3,9 +3,9 @@
 
 from sqlmodel import Session, create_engine, SQLModel, select
 
-from app.models.customer import Customer
-from app.models.order import Order
-from app.models.order_status import OrderStatus
+from backend.models.customer import Customer
+from backend.models.order import Order
+from backend.models.order_status import OrderStatus
 
 sqlite_file_name = "database.db"
 sqlite_url = f"sqlite:///{sqlite_file_name}"

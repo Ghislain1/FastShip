@@ -3,7 +3,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from typing import Annotated
 
 from fastapi.security import OAuth2PasswordBearer
-from app.core.security import oauth2_scheme
+from backend.core.security import oauth2_scheme
 
 
 # fastapi_jwt_auth must be installed

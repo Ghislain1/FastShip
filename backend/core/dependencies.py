@@ -2,7 +2,7 @@
 from functools import lru_cache
 from typing import Annotated
 from fastapi import Depends
-from app.services.printer_service import PrinterService
+from backend.services.printer_service import PrinterService
 
 
 @lru_cache

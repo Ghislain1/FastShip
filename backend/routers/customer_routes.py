@@ -9,10 +9,10 @@ from typing import Annotated
 
 from fastapi import APIRouter, Depends, Query
 from sqlmodel import Session
-from app.db import get_session
-from app.schemas.custom_schema import CustomerCreate, CustomerPublic
-from app.services.customer_service import CustomerService
-from app.core.dependencies import PrinterDep
+from backend.db import get_session
+from backend.schemas.custom_schema import CustomerCreate, CustomerPublic
+from backend.services.customer_service import CustomerService
+from backend.core.dependencies import PrinterDep
 
 
 router = APIRouter(prefix="/customers", tags=["Customers"])

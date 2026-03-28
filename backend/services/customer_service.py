@@ -2,8 +2,8 @@
 from passlib.context import CryptContext
 from sqlmodel import Session, select
 
-from app.models.customer import Customer
-from app.schemas.custom_schema import CustomerCreate
+from backend.models.customer import Customer
+from backend.schemas.custom_schema import CustomerCreate
 
 
 class CustomerService:

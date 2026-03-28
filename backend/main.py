@@ -6,13 +6,13 @@ from fastapi import FastAPI
 from prometheus_fastapi_instrumentator import Instrumentator
 
 # Pizza
-from app.db import create_db_and_tables, seed_db_if_empty
-from app.routers.auth_routes import router as auth_router
-from app.routers.order_routes import router as order_router
-from app.routers.customer_routes import router as customer_router
-from app.core.middlewares import CustomMiddleware
+from backend.db import create_db_and_tables, seed_db_if_empty
+from backend.routers.auth_routes import router as auth_router
+from backend.routers.order_routes import router as order_router
+from backend.routers.customer_routes import router as customer_router
+from backend.core.middlewares import CustomMiddleware
 
-from app.core.dependencies import get_printer_service
+from backend.core.dependencies import get_printer_service
 
 
 @asynccontextmanager
