@@ -3,8 +3,8 @@ from passlib.context import CryptContext
 from sqlmodel import select
 from fastapi.exceptions import HTTPException
 from starlette import status
-import jwt
-from datetime import datetime, timedelta
+
+from backend.core.utils import generate_access_token
 from backend.models.customer import Customer
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -85,17 +85,21 @@ class CustomerService:
                 detail="[Ghis]> The Customer with that Password is incorrect!",
             )
 
-        # @TODO JWT got 3 parts , head, payloadGenerate Token
-        payload = {
+        # Data
+        data = {
             "user": {
                 "name": customer.username,
                 "email": customer.email,
-            },
-            "exp": datetime.now() + timedelta(minutes=10),
+                "id": customer.id,
+            }
         }
-        # @TODO Must be move to .env
-        algo = "HS256"
-        key = "ANY_KEY_GHISLAIN"
 
-        tk = jwt.encode(payload=payload, key=key, algorithm=algo)
+        tk = generate_access_token(data)
+
         return {"access_token": tk, "type": "jwt"}
+
+    async def get_customer_by_id(self, id: int):
+        db_customer = await self.session.get(Customer, id)
+        if db_customer is None:
+            raise HTTPException(402, detail="email is already used!..")
+        return db_customer

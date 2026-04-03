@@ -7,9 +7,11 @@
 
 from typing import Annotated
 
-from fastapi import APIRouter, Depends, Query
+from fastapi import APIRouter, Depends, HTTPException, Query
+from starlette import status
 
-from backend.schemas.customer_schema import CustomerPublic
+from backend.core.utils import decode_access_token
+from backend.schemas.customer_schema import CustomerRead
 from backend.core.dependencies import CustomerServiceDep, PrinterDep
 from backend.core.security import oauth2_scheme
 
@@ -20,7 +22,7 @@ router = APIRouter(prefix="/customers", tags=["Customers"])
 
 
 # https://fastapi.tiangolo.com/tutorial/sql-databases/#read-heroes-with-heropublic
-@router.get("/", response_model=list[CustomerPublic])
+@router.get("/", response_model=list[CustomerRead])
 async def read_all_customers(
     customer_service: CustomerServiceDep,
     printer: PrinterDep,
@@ -33,5 +35,21 @@ async def read_all_customers(
 
 
 @router.get("protect-demo")
-async def get_demo_protect(token: Annotated[str, Depends(oauth2_scheme)]):
-    return {"token": token, "Ghisl": "Nice Project  Ur router"}
+async def get_demo_protect(
+    token: Annotated[str, Depends(oauth2_scheme)],
+    customer_service: CustomerServiceDep,
+    printer: PrinterDep,
+):
+    #  by testing in Headers  add Authorization:  Bearer jjGHJSahdjklaHSDasd
+    data = decode_access_token(token)
+
+    printer.print_info("CUSTOM ROUTER", data["exp"])
+    if data is None:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid Token"
+        )
+
+    customer_id = data["user"]["id"]
+
+    customer = await customer_service.get_customer_by_id(customer_id)
+    return customer
