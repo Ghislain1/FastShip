@@ -1,38 +1,9 @@
-from typing import Optional, TYPE_CHECKING
+from typing import Optional
 from enum import Enum as PyEnum
+from datetime import datetime
+from uuid import UUID
 
-if TYPE_CHECKING:
-    from backend.models.customer import Customer  # adjust import path
-
-# from enum import Enum
-from sqlmodel import (
-    Column,
-    Relationship,
-    Enum,  # ************ Right Emun not from python builtin enum***********
-    Field,
-    SQLModel,
-)
-
-
-ORDER_STATUSES = (
-    ("PENDING", "pending"),
-    ("IN_TRANSIT", "in-transit"),
-    ("DELIVERED", "delivered"),
-)
-PIZZA_SIZES = (
-    ("SMALL", "small"),
-    ("MEDIUM", "medium"),
-    ("LARGE", "large"),
-    ("EXTRA_LARGE", "extra-large"),
-)
-
-
-# enum for size of pizza
-class PizzaSize(str, PyEnum):
-    SMALL = "small"
-    MEDIUM = "medium"
-    LARGE = "large"
-    EXTRA_LARGE = "extra-large"
+from sqlmodel import Field, Relationship, SQLModel
 
 
 # Enum for order status
@@ -42,28 +13,18 @@ class OrderStatus(str, PyEnum):
     DELIVERED = "delivered"
 
 
-class Order(SQLModel, table=True):
-    """Order Table"""
+class OrderBase(SQLModel):
+    created_at: datetime
+    updated_at: datetime
+    quantity: int = Field(default=1)
 
-    id: Optional[int] = Field(default=None, primary_key=True)
-    quantity: Optional[int] = Field(default=1, nullable=False)
 
-    # SQLModel Attribut with enum Column
-    order_status: OrderStatus = Field(
-        sa_column=Column(Enum(OrderStatus, name="order_status_enum")),
-        default=OrderStatus.PENDING,
-    )
-    # Defining a Column as Enum
-    pizza_size: PizzaSize = Field(
-        sa_column=Column(Enum(PizzaSize, name="pizza_size_enum")),
-        default=PizzaSize.SMALL,
-    )
+class Order(OrderBase, table=True):
+    """Relationship (1 : N)"""
 
-    # TODOD So specify a FK key relation: FK column
-    customer_id: Optional[int] = Field(default=None, foreign_key="customer.id")
+    id: UUID
+    shipment_id: UUID = Field(foreign_key="shipment.id", primary_key=True)
+    # product_id: UUID = Field(foreign_key="product.id", primary_key=True)
 
-    # relation: many orders -> one customer **** # use string "Customer", no import of Order here ***
-    customer: Optional["Customer"] = Relationship(back_populates="orders")
-
-    def __repr__(self):
-        return f"<Order {self.id}"
+    # shipment: "Shipment" = Relationship(back_populates="orders")
+    # product: "Product" = Relationship(back_populates="orders")

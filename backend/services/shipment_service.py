@@ -5,26 +5,27 @@ from fastapi.exceptions import HTTPException
 from starlette import status
 
 from backend.core.utils import generate_access_token
-from backend.models.customer import Customer
+
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from backend.schemas.customer_schema import CustomerCreate
+from backend.models.shipment import Shipment
+from backend.schemas.shipment import ShipmentCreate, ShipmentPublic
 
 
-class CustomerService:
+class ShipmentService:
     def __init__(self, session: AsyncSession):
         # Argon2 (no length limit, more modern)
         self.pwd_context = CryptContext(schemes=["argon2"], deprecated="auto")
         self.session = session
 
-    async def create_customer(self, customer_create: CustomerCreate) -> Customer:
+    async def create_shipment(self, customer_create: ShipmentCreate) -> Shipment:
         """Create a new customer with hashed password"""
         # Hash the plain password
         hashed_password = self.pwd_context.hash(customer_create.password)
 
         # Create DB model
         # Magic: model_validate copies fields + adds hashed_password
-        db_customer = Customer.model_validate(
+        db_customer = Shipment.model_validate(
             customer_create, update={"hashed_password": hashed_password}
         )
         self.session.add(db_customer)
@@ -32,9 +33,10 @@ class CustomerService:
         await self.session.refresh(db_customer)
         return db_customer
 
-    async def load_customers(self, offset: int, limit: int) -> list[Customer]:
+    async def load_shipments(self, offset: int, limit: int) -> list[Shipment]:
         """Load all customers from database"""
-        statement = select(Customer).offset(offset).limit(limit)
+
+        statement = select(Shipment).offset(offset).limit(limit)
         results = await self.session.execute(statement=statement)
         customers = results.scalars().all()
         return customers
@@ -42,9 +44,9 @@ class CustomerService:
     # @TODO
     def get_customer_by_email(self, email: str):
         """Get Customer  from database"""
-        statement = select(Customer)
+        statement = select(Shipment)
         db_customer = self.session.exec(
-            statement.filter(Customer.email == email).first()
+            statement.filter(Shipment.email == email).first()
         )
 
         if db_customer is not None:
@@ -57,13 +59,13 @@ class CustomerService:
     async def token(self, email, password) -> str:
         """Valide the credentials"""
 
-        condition_on_email = Customer.email == email
+        condition_on_email = Shipment.email == email
         # Select the table like the name of method @TODO Ghis select from sqlmodel
-        statement = select(Customer).where(condition_on_email)
+        statement = select(Shipment).where(condition_on_email)
 
         result = await self.session.execute(statement=statement)
 
-        customer: Customer = result.scalar()
+        customer = result.scalar()
 
         if customer is None:
             raise HTTPException(
@@ -93,7 +95,7 @@ class CustomerService:
         return {"access_token": tk, "type": "jwt"}
 
     async def get_customer_by_id(self, id: int):
-        db_customer = await self.session.get(Customer, id)
+        db_customer = await self.session.get(Shipment, id)
         if db_customer is None:
             raise HTTPException(402, detail="email is already used!..")
         return db_customer

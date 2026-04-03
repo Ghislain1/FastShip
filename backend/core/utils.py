@@ -2,7 +2,8 @@ from datetime import datetime, timedelta
 
 import jwt
 
-from backend.models.customer import Customer
+
+from backend.models.seller import Seller
 
 # @TODO Must be move to .env
 _key = "ANY_KEY_GHISLAIN"
@@ -20,12 +21,12 @@ def generate_access_token(data: dict, expiry: timedelta = timedelta(hours=1)):
     return tk
 
 
-def generate_access_token2(customer: Customer, expiry: timedelta = timedelta(hours=1)):
+def generate_access_token2(seller: Seller, expiry: timedelta = timedelta(hours=1)):
     # @TODO JWT got 3 parts , header, payload ,Algo
     payload = {
         "user": {
-            "name": customer.username,
-            "email": customer.email,
+            "name": seller.username,
+            "email": seller.email,
         },
         "exp": datetime.now() + timedelta(minutes=10),
     }

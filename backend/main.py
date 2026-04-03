@@ -6,28 +6,18 @@ from fastapi import FastAPI
 from prometheus_fastapi_instrumentator import Instrumentator
 from scalar_fastapi import get_scalar_api_reference
 
-# Pizza
-
-from backend.db.database import (
-    create_db_and_tables,
-    generate_dummy_data,
-    is_table_empty,
-)
+from backend.db.database import create_db_and_tables
 from backend.routers.auth_routes import router as auth_router
 from backend.routers.order_routes import router as order_router
-from backend.routers.customer_routes import router as customer_router
-from backend.core.middlewares import CustomMiddleware
+from backend.routers.seller import router as seller_router
 
-from backend.core.dependencies import PrinterDep
+from backend.core.middlewares import CustomMiddleware
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    PrinterDep().print_info("MAIN", "################ Create DB AND TABLES")
+    # PrinterDep().print_info("MAIN", "################ Create DB AND TABLES")
     await create_db_and_tables()
-    empty = await is_table_empty()
-    if empty:
-        await generate_dummy_data()
 
     yield
 
@@ -43,7 +33,7 @@ app.add_middleware(CustomMiddleware)
 # Include router from different API
 app.include_router(auth_router)
 app.include_router(order_router)
-app.include_router(customer_router)
+app.include_router(seller_router)
 
 
 @app.get("/")
