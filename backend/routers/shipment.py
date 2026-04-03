@@ -15,6 +15,6 @@ async def read_all_shipments(
     offset: int = 0,
     limit: Annotated[int, Query(le=100)] = 100,
 ):
-    customers = await shipment_service.load_shipments(offset, limit)
+    shipments = await shipment_service.load_shipments(offset, limit)
 
-    return customers
+    return shipments

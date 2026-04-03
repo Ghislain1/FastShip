@@ -17,11 +17,10 @@ router = APIRouter(prefix="/order", tags=["Orders"])
 async def get_specific_order(
     id: int, authorize: Annotated[OAuth2PasswordBearer, Depends(oauth2_scheme)]
 ):
-    pass
+    return {"id": id, "authorize": authorize}
 
 
 @router.get("/")
 async def get_all_orders(order_service: OrderServiceDep):
 
-    # All
     await order_service.all()

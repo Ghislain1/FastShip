@@ -9,7 +9,7 @@ from backend.core.utils import generate_access_token
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from backend.models.shipment import Shipment
-from backend.schemas.shipment import ShipmentCreate, ShipmentPublic
+from backend.schemas.shipment import ShipmentCreate
 
 
 class ShipmentService:

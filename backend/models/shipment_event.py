@@ -1,9 +1,6 @@
-from datetime import datetime
 from uuid import UUID
 
-from sqlmodel import Field, Relationship, SQLModel
-
-from backend.models.order import Order
+from sqlmodel import SQLModel
 
 
 class ShipmentEvent(SQLModel, table=True):
