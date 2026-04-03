@@ -39,12 +39,6 @@ class CustomerService:
         customers = results.scalars().all()
         return customers
 
-    async def is_table_empty(self) -> bool:
-        """Load all customers from database"""
-        statement = select(Customer)
-        response = await self.session.execute(statement.offset(0).limit(1)).all()
-        return len(response) == 0
-
     # @TODO
     def get_customer_by_email(self, email: str):
         """Get Customer  from database"""

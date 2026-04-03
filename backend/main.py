@@ -9,9 +9,9 @@ from scalar_fastapi import get_scalar_api_reference
 # Pizza
 
 from backend.db.database import (
-    check_db_empty,
     create_db_and_tables,
     generate_dummy_data,
+    is_table_empty,
 )
 from backend.routers.auth_routes import router as auth_router
 from backend.routers.order_routes import router as order_router
@@ -25,7 +25,7 @@ from backend.core.dependencies import PrinterDep
 async def lifespan(app: FastAPI):
     PrinterDep().print_info("MAIN", "################ Create DB AND TABLES")
     await create_db_and_tables()
-    empty = await check_db_empty()
+    empty = await is_table_empty()
     if empty:
         await generate_dummy_data()
 
