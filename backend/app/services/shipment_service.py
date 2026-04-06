@@ -4,12 +4,12 @@ from sqlmodel import select
 from fastapi.exceptions import HTTPException
 from starlette import status
 
-from backend.core.utils import generate_access_token
+from app.core.utils import generate_access_token
 
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from backend.models.shipment import Shipment
-from backend.schemas.shipment import ShipmentCreate
+from app.models.shipment import Shipment
+from app.schemas.shipment import ShipmentCreate
 
 
 class ShipmentService:

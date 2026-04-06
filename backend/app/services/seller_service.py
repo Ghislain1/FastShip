@@ -4,13 +4,13 @@ from sqlmodel import select
 from fastapi.exceptions import HTTPException
 from starlette import status
 
-from backend.core.utils import generate_access_token
+from app.core.utils import generate_access_token
 
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from backend.models.seller import Seller
+from app.models.seller import Seller
 
-from backend.schemas.seller import SellerCreate
+from app.schemas.seller import SellerCreate
 
 
 class SellerService:

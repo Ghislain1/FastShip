@@ -5,7 +5,7 @@ from sqlmodel import Field, Relationship, SQLModel
 
 
 if TYPE_CHECKING:
-    from backend.models.order import Order  # adjust import path
+    from app.models.order import Order  # adjust import path
 
 
 class ShipmentBase(SQLModel):

@@ -1,7 +1,7 @@
 from typing import Optional
 
 
-from backend.models.order import OrderBase, OrderStatus
+from app.models.order import OrderBase, OrderStatus
 
 
 class OrderPublic(OrderBase):

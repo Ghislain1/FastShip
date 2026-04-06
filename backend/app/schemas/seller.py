@@ -1,6 +1,6 @@
 # https://sqlmodel.tiangolo.com/tutorial/fastapi/relationships/#models-with-relationships
 
-from backend.models.seller import SellerBase
+from app.models.seller import SellerBase
 from uuid import UUID
 
 

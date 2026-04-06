@@ -2,8 +2,8 @@ from typing import Annotated
 
 from fastapi import APIRouter, Query
 
-from backend.core.dependencies import ShipmentServiceDep
-from backend.schemas.shipment import ShipmentPublic
+from app.core.dependencies import ShipmentServiceDep
+from app.schemas.shipment import ShipmentPublic
 
 
 router = APIRouter(prefix="/shipment", tags=["Shipment"])

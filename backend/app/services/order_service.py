@@ -1,7 +1,7 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlmodel import select
 
-from backend.models.order import Order
+from app.models.order import Order
 
 
 class OrderService:

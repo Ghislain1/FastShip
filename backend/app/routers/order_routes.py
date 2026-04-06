@@ -3,9 +3,9 @@ from fastapi import APIRouter, Depends
 from typing import Annotated
 
 from fastapi.security import OAuth2PasswordBearer
-from backend.core.dependencies import OrderServiceDep
-from backend.core.security import oauth2_scheme
-from backend.schemas.order_schema import OrderPublic
+from app.core.dependencies import OrderServiceDep
+from app.core.security import oauth2_scheme
+from app.schemas.order_schema import OrderPublic
 
 
 # fastapi_jwt_auth must be installed

@@ -2,8 +2,8 @@ from typing import Annotated
 
 from fastapi import APIRouter, Query
 
-from backend.core.dependencies import SellerServiceDep
-from backend.schemas.seller import SellerPublic
+from app.core.dependencies import SellerServiceDep
+from app.schemas.seller import SellerPublic
 
 router = APIRouter(prefix="/auth", tags=["Authentication"])
 
