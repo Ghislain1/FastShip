@@ -18,4 +18,4 @@ from backend.app.models.shipment import Shipment
 from backend.app.models.shipment_event import ShipmentEvent
 
 # TODO@Ghis why do you do that?
-# __all__ = [Seller, Product, Order, Shipment, ShipmentEvent]
+__all__ = [Seller, Product, Order, Shipment, ShipmentEvent]

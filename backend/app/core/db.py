@@ -29,19 +29,22 @@ async def create_db_and_tables():
 
 
 async def seed_db_if_empty() -> None:
-    """TODO: To be move on top due to service"""
+    """Seed database with first superuser if it doesn't exist"""
     async with async_session_maker() as session:
-        statement_seller = select(Seller).where(
-            Seller.email == settings.FIRST_SUPERUSER
+        # Check if superuser already exists
+        super_user = await session.scalar(
+            select(Seller).where(Seller.email == settings.FIRST_SUPERUSER)
         )
-        super_user = await session.execute(statement_seller)
         if super_user is not None:
             return
+
+        # Create first superuser
         user_service = SellerService(session)
         await user_service.add_seller(
             SellerCreate(
                 email=settings.FIRST_SUPERUSER,
                 password=settings.FIRST_SUPERUSER_PASSWORD,
+                name=settings.FIRST_SUPERUSER_NAME,
                 is_superuser=True,
             )
         )

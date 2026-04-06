@@ -13,6 +13,7 @@ class Settings(BaseSettings):
     DATABASE_URL: str = "sqlite+aiosqlite:///./fastship.db"  # U must install aiosqlite
     FIRST_SUPERUSER: EmailStr = "admin@admin.de"
     FIRST_SUPERUSER_PASSWORD: str = "admin"
+    FIRST_SUPERUSER_NAME: str = "Admin"
     EMAIL_TEST_USER: EmailStr = "test@example.com"
 
     authjwt_secret_key: str = (
