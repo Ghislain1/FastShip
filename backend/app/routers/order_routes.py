@@ -23,5 +23,4 @@ async def get_specific_order(
 
 @router.get("/", response_model=list[OrderPublic])
 async def get_all_orders(order_service: OrderServiceDep):
-
     await order_service.all()

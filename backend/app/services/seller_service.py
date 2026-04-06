@@ -48,8 +48,7 @@ class SellerService:
         """Provide the  total number of sellers"""
 
         count_statement = select(func.count()).select_from(Seller)
-        count_result = await self.session.execute(statement=count_statement)
-        count = count_result.one()
+        count = await self.session.scalar(count_statement)
         return count
 
     # @TODO

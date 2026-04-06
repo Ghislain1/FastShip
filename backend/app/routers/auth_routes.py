@@ -27,5 +27,4 @@ async def login_seller(
 async def register_seller(
     seller_create: SellerCreate, seller_service: SellerServiceDep
 ):
-
     return await seller_service.add_seller(seller_create)
