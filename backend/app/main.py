@@ -6,11 +6,12 @@ from fastapi import FastAPI
 from prometheus_fastapi_instrumentator import Instrumentator
 from scalar_fastapi import get_scalar_api_reference
 
-from app.core.db import create_db_and_tables, seed_db_if_empty
+
 from app.routers.auth_routes import router as auth_router
 from app.routers.order_routes import router as order_router
 from app.routers.seller import router as seller_router
 from app.routers.shipment import router as shipment_router
+from app.core.db import create_db_and_tables, seed_db_if_empty
 
 from app.core.middlewares import CustomMiddleware
 
@@ -24,7 +25,7 @@ async def lifespan(app: FastAPI):
     yield
 
 
-app = FastAPI(lifespan=lifespan, title="PizzaDeliveryApp")
+app = FastAPI(lifespan=lifespan, title="FastShip")
 
 # Create behing the scene endpoint /metrics
 Instrumentator().instrument(app=app).expose(app=app)
