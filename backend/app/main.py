@@ -6,13 +6,13 @@ from fastapi import FastAPI
 from prometheus_fastapi_instrumentator import Instrumentator
 from scalar_fastapi import get_scalar_api_reference
 
-from backend.db.database import create_db_and_tables, seed_db_if_empty
-from backend.routers.auth_routes import router as auth_router
-from backend.routers.order_routes import router as order_router
-from backend.routers.seller import router as seller_router
-from backend.routers.shipment import router as shipment_router
+from app.core.db import create_db_and_tables, seed_db_if_empty
+from app.routers.auth_routes import router as auth_router
+from app.routers.order_routes import router as order_router
+from app.routers.seller import router as seller_router
+from app.routers.shipment import router as shipment_router
 
-from backend.core.middlewares import CustomMiddleware
+from app.core.middlewares import CustomMiddleware
 
 
 @asynccontextmanager

@@ -6,8 +6,8 @@ from sqlmodel import SQLModel, select
 
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine, async_sessionmaker
 
-from backend.models.order import Order
-from backend.models.shipment import Shipment
+from app.models.order import Order
+from app.models.shipment import Shipment
 
 
 # POSTGRES_URL = "postgresql://postgres:namej345@localhost/pizza_deliver_db"
