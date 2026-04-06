@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 import jwt
 
 
-from app.models.seller import Seller
+from ..models.seller import Seller
 
 # @TODO Must be move to .env
 _key = "ANY_KEY_GHISLAIN"

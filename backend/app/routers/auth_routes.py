@@ -4,8 +4,8 @@ from fastapi.security import OAuth2PasswordRequestForm
 from typing import Annotated
 
 # Own import
-from app.core.dependencies import SellerServiceDep
-from app.schemas.seller import SellerCreate, SellerPublic
+from ..core.dependencies import SellerServiceDep
+from ..schemas.seller import SellerCreate, SellerPublic
 
 # Router definition for Authentication
 router = APIRouter(prefix="/auth", tags=["Authentication"])

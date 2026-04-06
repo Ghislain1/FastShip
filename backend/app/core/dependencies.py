@@ -2,11 +2,11 @@
 from functools import lru_cache
 from typing import Annotated
 from fastapi import Depends
-from app.core.db import get_async_session
-from app.services.seller_service import SellerService
-from app.services.shipment_service import ShipmentService
-from app.services.order_service import OrderService
-from app.services.printer_service import PrinterService
+from .db import get_async_session
+from ..services.seller_service import SellerService
+from ..services.shipment_service import ShipmentService
+from ..services.order_service import OrderService
+from ..services.printer_service import PrinterService
 from sqlalchemy.ext.asyncio import AsyncSession
 
 

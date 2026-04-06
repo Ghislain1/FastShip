@@ -9,7 +9,7 @@ A learning-focused FastAPI repository built around a simple Pizza Delivery API. 
 
 ## Commands and Findings
 - .venv\Scripts\activate  ==> activate my virtual environment
-- fastapi dev app/main.py  ==> to  Run app in dev Mode
+- fastapi dev  ==> to  Run app in dev Mode
 - uv run pytest tests/ . -v ==> Run all py test cmd
 - uv run ruff check . --fix  ==> ruff must be installed
 - uv pip freeze > requirements.txt ==>  in that file you see all used package

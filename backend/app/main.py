@@ -7,13 +7,13 @@ from prometheus_fastapi_instrumentator import Instrumentator
 from scalar_fastapi import get_scalar_api_reference
 
 
-from app.routers.auth_routes import router as auth_router
-from app.routers.order_routes import router as order_router
-from app.routers.seller import router as seller_router
-from app.routers.shipment import router as shipment_router
-from app.core.db import create_db_and_tables, seed_db_if_empty
+from .routers.auth_routes import router as auth_router
+from .routers.order_routes import router as order_router
+from .routers.seller import router as seller_router
+from .routers.shipment import router as shipment_router
+from .core.db import create_db_and_tables, seed_db_if_empty
 
-from app.core.middlewares import CustomMiddleware
+from .core.middlewares import CustomMiddleware
 
 
 @asynccontextmanager

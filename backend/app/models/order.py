@@ -6,7 +6,7 @@ from typing import Optional
 from sqlmodel import Field, Relationship, SQLModel
 
 # if TYPE_CHECKING:
-from app.models.shipment import Shipment
+from .shipment import Shipment
 
 
 # Enum for order status

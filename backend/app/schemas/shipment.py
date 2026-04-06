@@ -1,6 +1,6 @@
 # https://sqlmodel.tiangolo.com/tutorial/fastapi/relationships/#models-with-relationships
 
-from app.models.shipment import ShipmentBase
+from ..models.shipment import ShipmentBase
 from uuid import UUID
 
 

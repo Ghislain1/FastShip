@@ -1,7 +1,7 @@
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from app.models.order import Order  # adjust import path
+    from .order import Order  # adjust import path
 
 from sqlmodel import UUID, Relationship, SQLModel
 
