@@ -1,12 +1,12 @@
 from typing import TYPE_CHECKING
-
 from pydantic import EmailStr
 from sqlmodel import DateTime, Relationship, SQLModel, Field
 from datetime import datetime, timezone
 from uuid import UUID, uuid4
 
+
 if TYPE_CHECKING:
-    from .product import Product  # adjust import path
+    from backend.app.models.product import Product  # adjust import path
 
 
 def get_datetime_utc() -> datetime:
@@ -25,7 +25,7 @@ class SellerBase(SQLModel):
 class Seller(SellerBase, table=True):
     """Relatiobnship One to Many with Product"""
 
-    __tablename__ = "Seller"
+    __tablename__ = "seller"
 
     id: UUID = Field(default_factory=uuid4, primary_key=True)
     hashed_password: str
@@ -35,8 +35,4 @@ class Seller(SellerBase, table=True):
         sa_type=DateTime(timezone=True),
         nullable=False,
     )
-
-    # Relation ...
-    products: list["Product"] = Relationship(
-        back_populates="owner", cascade_delete=True
-    )
+    products: list["Product"] = Relationship(back_populates="owner")

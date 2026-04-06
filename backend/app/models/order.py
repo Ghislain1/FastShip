@@ -1,12 +1,9 @@
 # from typing import Optional
 from enum import Enum as PyEnum
 from datetime import datetime
-from uuid import UUID
-from typing import Optional
+from uuid import UUID, uuid4
 from sqlmodel import Field, Relationship, SQLModel
-
-# if TYPE_CHECKING:
-from .shipment import Shipment
+from backend.app.models.shipment import Shipment
 
 
 # Enum for order status
@@ -25,10 +22,11 @@ class OrderBase(SQLModel):
 class Order(OrderBase, table=True):
     """Relationship (1 : N)"""
 
-    id: UUID
-    shipment_id: UUID = Field(foreign_key="shipment.id", primary_key=True)
-    shipment: Optional["Shipment"] = Relationship(back_populates="orders")
+    id: UUID = Field(default_factory=uuid4, primary_key=True)
+
     # product_id: UUID = Field(foreign_key="product.id", primary_key=True)
 
-    # shipment: "Shipment" = Relationship(back_populates="orders")
-    # product: "Product" = Relationship(back_populates="orders")
+    shipment: "Shipment" = Relationship(back_populates="orders")
+    shipment_id: UUID = Field(
+        foreign_key="shipment.id", nullable=False, ondelete="CASCADE"
+    )

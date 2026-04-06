@@ -10,3 +10,12 @@
 
 # Make Pylance happy - re-export types
 # __all__ = ["Customer", "Order"]
+
+from backend.app.models.seller import Seller
+from backend.app.models.product import Product
+from backend.app.models.order import Order
+from backend.app.models.shipment import Shipment
+from backend.app.models.shipment_event import ShipmentEvent
+
+# TODO@Ghis why do you do that?
+# __all__ = [Seller, Product, Order, Shipment, ShipmentEvent]

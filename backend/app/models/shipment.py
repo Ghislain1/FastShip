@@ -1,11 +1,10 @@
-from uuid import UUID
+from uuid import UUID, uuid4
 from typing import TYPE_CHECKING
-
 from sqlmodel import Field, Relationship, SQLModel
 
 
 if TYPE_CHECKING:
-    from .order import Order  # adjust import path
+    from backend.app.models.order import Order  # adjust import path
 
 
 class ShipmentBase(SQLModel):
@@ -20,8 +19,6 @@ class ShipmentBase(SQLModel):
 class Shipment(ShipmentBase, table=True):
     """Represent table model  for Shipment Shipment-> Order, (1:N)"""
 
-    id: UUID = Field(primary_key=True)
+    id: UUID = Field(default_factory=uuid4, primary_key=True)
 
-    orders: list["Order"] = Relationship(
-        back_populates="shipment",
-    )
+    orders: list["Order"] | None = Relationship(back_populates="shipment")
