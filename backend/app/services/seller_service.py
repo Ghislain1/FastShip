@@ -1,6 +1,6 @@
 #  passlib[bcrypt] must be installed
 from passlib.context import CryptContext
-from sqlmodel import select
+from sqlmodel import select, func
 from fastapi.exceptions import HTTPException
 from starlette import status
 
@@ -43,6 +43,14 @@ class SellerService:
         results = await self.session.execute(statement=statement)
         sellers = results.scalars().all()
         return sellers
+
+    async def get_sellers_count(self) -> int:
+        """Provide the  total number of sellers"""
+
+        count_statement = select(func.count()).select_from(Seller)
+        count_result = await self.session.execute(statement=count_statement)
+        count = count_result.one()
+        return count
 
     # @TODO
     def get_seller_by_email(self, email: str):

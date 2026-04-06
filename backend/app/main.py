@@ -9,7 +9,7 @@ from scalar_fastapi import get_scalar_api_reference
 
 from .routers.auth_routes import router as auth_router
 from .routers.order_routes import router as order_router
-from .routers.seller import router as seller_router
+from .routers.seller_router import router as seller_router
 from .routers.shipment import router as shipment_router
 from .core.db import create_db_and_tables, seed_db_if_empty
 
