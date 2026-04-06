@@ -38,12 +38,12 @@ jobs:
     # TESTS: Check if tests exist → run only if they do
     - name: Run tests if tests directory exists
       run: |
-        if [ -d "tests" ] || find tests backend -type f \( -name "test_*.py" -o -name "*_test.py" \) 2>/dev/null | grep -q .; then
-          echo "✅ Tests found, running pytest..."
+        if [ -d "tests" ]; then
+          echo "✅ Tests directory found, running pytest..."
           rm -f test.db *.db
           DATABASE_URL=sqlite+aiosqlite:///./test.db python -m pytest tests/ -v
         else
-          echo "ℹ️  No tests found, skipping pytest"
+          echo "ℹ️  No tests directory found, skipping pytest"
         fi
     
     # Coverage (only if tests ran)
