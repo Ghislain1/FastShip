@@ -10,7 +10,9 @@ async def test_create_seller(db: AsyncSession) -> None:
     email = random_email()
     password = random_lower_string()
     username = random_lower_string()
-    seller_in = SellerCreate(email=email, password=password, username=username)
+    seller_in = SellerCreate(
+        email=email, password=password, username=username, name=username
+    )
     seller = await SellerService(session=db).add_seller(seller_create=seller_in)
     assert seller.email == email
     assert hasattr(seller, "hashed_password")
