@@ -12,6 +12,13 @@
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4"
   },
+  "devDependencies": {
+    "@types/jest": "^29.5.5",
+    "@types/node": "^20.14.6",
+    "@types/react": "^19.0.40",
+    "@types/react-dom": "^19.0.18",
+    "typescript": "^5.6.2"
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
