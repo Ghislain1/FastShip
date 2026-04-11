@@ -7,3 +7,9 @@ Thank U for your interest in contributing to the FastShip App
 - Activate it >  .venv\Scripts\activate
 - Install dependencies with uv >  uv pip install -r requirements.txt
 - or update requirements.txt > uv export --format requirements-txt > requirements.txt
+
+# backend
+
+# frontend
+- npx create-react-app ==> cerate react app under frontend
+- 
