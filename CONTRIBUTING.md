@@ -11,7 +11,7 @@ Thank U for your interest in contributing to the FastShip App
 # backend
 
 # frontend
-- npx create-react-app ==> create react app under frontend
+- npm create vite@latest frontend -- --template react-ts ==> create react app under frontend
 - npm install tailwindcss @tailwindcss/vite >  Install Tailwind CSS
 - Add the @tailwindcss/vite plugin to your Vite >  Configure the Vite plugin
 -  Add an @import to your CSS file that imports Tailwind CSS > Import Tailwind CSS
