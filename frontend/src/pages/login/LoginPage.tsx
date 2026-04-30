@@ -8,6 +8,7 @@ export default function LoginPage() {
             <h2>Login</h2>
             <input
                 placeholder="Email"
+                value={email}
                 onChange={(e) => setEmail(e.target.value)}
             />
             <button>Login</button>

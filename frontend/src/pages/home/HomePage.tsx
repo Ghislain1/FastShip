@@ -1,13 +1,9 @@
 import { createFileRoute } from '@tanstack/react-router'
 import Hero from '~/components/Hero';
 
-export const Route = createFileRoute('/home/HomePage')({
-    component: RouteComponent,
+export const Route = createFileRoute('/')({
+    component: HomePage,
 })
-
-function RouteComponent() {
-    return <div>Hello "/home/HomePage"!</div>
-}
 
 export default function HomePage() {
     return (
