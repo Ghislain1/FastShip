@@ -9,7 +9,7 @@ export function createRouter(queryClient: QueryClient) {
             queryClient,
         },
         scrollRestoration: true,
-        defaultPreloadStaleTime: 0,
+        defaultPreloadStaleTime: 10,
     });
 
     return router;

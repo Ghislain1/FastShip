@@ -26,7 +26,7 @@ function Index() {
 }
 
 function FloatingParticles() {
-  const particles = Array.from({ length: 20 }, (_, i) => i);
+  const particles = Array.from({ length: 120 }, (_, i) => i);
   return (
     <div className="pointer-events-none fixed inset-0 z-0">
       {particles.map((i) => {
@@ -68,9 +68,8 @@ function Navbar() {
 
   return (
     <header
-      className={`sticky top-0 z-50 transition-all duration-500 ${
-        scrolled ? "glass-strong border-b border-border" : "bg-transparent"
-      }`}
+      className={`sticky top-0 z-50 transition-all duration-500 ${scrolled ? "glass-strong border-b border-border" : "bg-transparent"
+        }`}
     >
       <div className="container mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
         <div className="flex items-center gap-2">
@@ -137,9 +136,8 @@ function HeroSection() {
 
       <div className="container mx-auto max-w-6xl px-4 text-center">
         <div
-          className={`mx-auto mb-8 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-5 py-2 text-sm text-primary transition-all duration-700 ${
-            isInView ? "animate-reveal" : "opacity-0"
-          }`}
+          className={`mx-auto mb-8 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-5 py-2 text-sm text-primary transition-all duration-700 ${isInView ? "animate-reveal" : "opacity-0"
+            }`}
         >
           <span className="relative flex h-2.5 w-2.5">
             <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-75" />
@@ -149,9 +147,8 @@ function HeroSection() {
         </div>
 
         <h1
-          className={`mx-auto max-w-4xl text-5xl font-bold tracking-tight text-foreground sm:text-6xl lg:text-8xl transition-all duration-700 delay-150 ${
-            isInView ? "animate-reveal" : "opacity-0"
-          }`}
+          className={`mx-auto max-w-4xl text-5xl font-bold tracking-tight text-foreground sm:text-6xl lg:text-8xl transition-all duration-700 delay-150 ${isInView ? "animate-reveal" : "opacity-0"
+            }`}
         >
           Ship{" "}
           <span className="relative">
@@ -169,18 +166,16 @@ function HeroSection() {
         </h1>
 
         <p
-          className={`mx-auto mt-6 max-w-2xl text-lg text-muted-foreground sm:text-xl transition-all duration-700 delay-300 ${
-            isInView ? "animate-reveal" : "opacity-0"
-          }`}
+          className={`mx-auto mt-6 max-w-2xl text-lg text-muted-foreground sm:text-xl transition-all duration-700 delay-300 ${isInView ? "animate-reveal" : "opacity-0"
+            }`}
         >
           The all-in-one platform for sellers and customers to manage orders,
           track shipments in real-time, and deliver with confidence.
         </p>
 
         <div
-          className={`mt-12 flex flex-col items-center justify-center gap-4 sm:flex-row transition-all duration-700 delay-500 ${
-            isInView ? "animate-reveal" : "opacity-0"
-          }`}
+          className={`mt-12 flex flex-col items-center justify-center gap-4 sm:flex-row transition-all duration-700 delay-500 ${isInView ? "animate-reveal" : "opacity-0"
+            }`}
         >
           <Link
             to="/register"
@@ -207,9 +202,8 @@ function HeroSection() {
         </div>
 
         <div
-          className={`mx-auto mt-20 max-w-4xl transition-all duration-700 delay-700 ${
-            isInView ? "animate-reveal" : "opacity-0"
-          }`}
+          className={`mx-auto mt-20 max-w-4xl transition-all duration-700 delay-700 ${isInView ? "animate-reveal" : "opacity-0"
+            }`}
         >
           <div className="relative glass rounded-2xl p-1 glow-box">
             <div className="overflow-hidden rounded-xl">
@@ -253,9 +247,8 @@ function DashboardStat({
         {value}
       </p>
       <p
-        className={`mt-1 text-xs font-medium ${
-          change.startsWith("-") ? "text-primary" : "text-accent"
-        }`}
+        className={`mt-1 text-xs font-medium ${change.startsWith("-") ? "text-primary" : "text-accent"
+          }`}
       >
         {change} this week
       </p>
@@ -272,9 +265,8 @@ function TrackingSection() {
       <div className="container mx-auto max-w-6xl px-4">
         <div className="mx-auto max-w-2xl text-center">
           <h2
-            className={`text-3xl font-bold tracking-tight text-foreground sm:text-5xl transition-all duration-700 ${
-              isInView ? "animate-reveal" : "opacity-0"
-            }`}
+            className={`text-3xl font-bold tracking-tight text-foreground sm:text-5xl transition-all duration-700 ${isInView ? "animate-reveal" : "opacity-0"
+              }`}
           >
             Track any shipment{" "}
             <span className="animate-gradient bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
@@ -282,18 +274,16 @@ function TrackingSection() {
             </span>
           </h2>
           <p
-            className={`mt-4 text-lg text-muted-foreground transition-all duration-700 delay-150 ${
-              isInView ? "animate-reveal" : "opacity-0"
-            }`}
+            className={`mt-4 text-lg text-muted-foreground transition-all duration-700 delay-150 ${isInView ? "animate-reveal" : "opacity-0"
+              }`}
           >
             Enter your tracking number to get real-time updates.
           </p>
         </div>
 
         <div
-          className={`mx-auto mt-12 max-w-xl transition-all duration-700 delay-300 ${
-            isInView ? "animate-reveal" : "opacity-0"
-          }`}
+          className={`mx-auto mt-12 max-w-xl transition-all duration-700 delay-300 ${isInView ? "animate-reveal" : "opacity-0"
+            }`}
         >
           <div className="relative group">
             <div className="absolute -inset-0.5 rounded-xl bg-gradient-to-r from-primary/50 to-accent/50 opacity-0 blur transition-opacity group-hover:opacity-100" />
@@ -321,9 +311,8 @@ function TrackingSection() {
         </div>
 
         <div
-          className={`mx-auto mt-16 max-w-lg transition-all duration-700 delay-500 ${
-            isInView ? "animate-reveal" : "opacity-0"
-          }`}
+          className={`mx-auto mt-16 max-w-lg transition-all duration-700 delay-500 ${isInView ? "animate-reveal" : "opacity-0"
+            }`}
         >
           <TrackingTimeline />
         </div>
@@ -363,31 +352,27 @@ function TrackingTimeline() {
         {steps.map((step, i) => (
           <div
             key={i}
-            className={`flex items-center gap-3 transition-opacity duration-500 ${
-              i === activeStep ? "opacity-100" : "opacity-60"
-            }`}
+            className={`flex items-center gap-3 transition-opacity duration-500 ${i === activeStep ? "opacity-100" : "opacity-60"
+              }`}
           >
             <div className="flex flex-col items-center">
               <div
-                className={`h-3.5 w-3.5 rounded-full transition-all duration-500 ${
-                  step.done
+                className={`h-3.5 w-3.5 rounded-full transition-all duration-500 ${step.done
                     ? "bg-primary shadow-lg shadow-primary/40"
                     : "border-2 border-border bg-transparent"
-                }`}
+                  }`}
               />
               {i < steps.length - 1 && (
                 <div
-                  className={`w-0.5 transition-all duration-500 ${
-                    step.done ? "h-10 bg-primary/40" : "h-10 bg-border"
-                  }`}
+                  className={`w-0.5 transition-all duration-500 ${step.done ? "h-10 bg-primary/40" : "h-10 bg-border"
+                    }`}
                 />
               )}
             </div>
             <div className="flex-1 pb-4">
               <p
-                className={`text-sm font-medium transition-colors ${
-                  step.done ? "text-foreground" : "text-muted-foreground"
-                }`}
+                className={`text-sm font-medium transition-colors ${step.done ? "text-foreground" : "text-muted-foreground"
+                  }`}
               >
                 {step.status}
               </p>
@@ -447,17 +432,15 @@ function FeaturesSection() {
       <div className="container mx-auto max-w-6xl px-4">
         <div className="mx-auto max-w-2xl text-center">
           <h2
-            className={`text-3xl font-bold tracking-tight text-foreground sm:text-5xl transition-all duration-700 ${
-              isInView ? "animate-reveal" : "opacity-0"
-            }`}
+            className={`text-3xl font-bold tracking-tight text-foreground sm:text-5xl transition-all duration-700 ${isInView ? "animate-reveal" : "opacity-0"
+              }`}
           >
             Everything to ship{" "}
             <span className="text-primary glow-text">with confidence</span>
           </h2>
           <p
-            className={`mt-4 text-lg text-muted-foreground transition-all duration-700 delay-150 ${
-              isInView ? "animate-reveal" : "opacity-0"
-            }`}
+            className={`mt-4 text-lg text-muted-foreground transition-all duration-700 delay-150 ${isInView ? "animate-reveal" : "opacity-0"
+              }`}
           >
             Powerful tools for sellers, seamless experience for customers.
           </p>
@@ -532,9 +515,8 @@ function FeatureCard({
     <div
       ref={ref}
       data-delay={index % 3}
-      className={`reveal-on-scroll group relative rounded-2xl border border-border bg-card/50 p-8 transition-all duration-500 hover:border-primary/30 hover:bg-card/80 ${
-        isInView ? "" : ""
-      }`}
+      className={`reveal-on-scroll group relative rounded-2xl border border-border bg-card/50 p-8 transition-all duration-500 hover:border-primary/30 hover:bg-card/80 ${isInView ? "" : ""
+        }`}
     >
       <div
         className={`mb-5 inline-flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br ${feature.color} p-0.5 transition-transform duration-500 group-hover:scale-110`}
@@ -577,16 +559,14 @@ function HowItWorksSection() {
       <div className="container mx-auto max-w-6xl px-4">
         <div className="mx-auto max-w-2xl text-center">
           <h2
-            className={`text-3xl font-bold tracking-tight text-foreground sm:text-5xl transition-all duration-700 ${
-              isInView ? "animate-reveal" : "opacity-0"
-            }`}
+            className={`text-3xl font-bold tracking-tight text-foreground sm:text-5xl transition-all duration-700 ${isInView ? "animate-reveal" : "opacity-0"
+              }`}
           >
             How it works
           </h2>
           <p
-            className={`mt-4 text-lg text-muted-foreground transition-all duration-700 delay-150 ${
-              isInView ? "animate-reveal" : "opacity-0"
-            }`}
+            className={`mt-4 text-lg text-muted-foreground transition-all duration-700 delay-150 ${isInView ? "animate-reveal" : "opacity-0"
+              }`}
           >
             Three simple steps to start shipping.
           </p>
@@ -597,9 +577,8 @@ function HowItWorksSection() {
             <div
               key={i}
               data-delay={i}
-              className={`reveal-on-scroll group relative text-center transition-all duration-500 ${
-                isInView ? "" : ""
-              }`}
+              className={`reveal-on-scroll group relative text-center transition-all duration-500 ${isInView ? "" : ""
+                }`}
             >
               <div className="relative mx-auto mb-8 flex h-20 w-20 items-center justify-center">
                 <div className="absolute inset-0 rounded-full border border-primary/20 animate-pulse-glow" />
@@ -643,9 +622,8 @@ function StatsSection() {
             <div
               key={i}
               data-delay={i}
-              className={`reveal-on-scroll text-center transition-all duration-500 ${
-                isInView ? "" : ""
-              }`}
+              className={`reveal-on-scroll text-center transition-all duration-500 ${isInView ? "" : ""
+                }`}
             >
               <p className="text-5xl font-bold tracking-tight text-primary sm:text-6xl glow-text">
                 {stat.value}
@@ -669,9 +647,8 @@ function SellerCTASection() {
       <div className="neon-line absolute left-0 right-0 top-0" />
       <div className="container mx-auto max-w-6xl px-4">
         <div
-          className={`reveal-on-scroll relative overflow-hidden rounded-3xl border border-primary/20 bg-gradient-to-br from-primary/10 via-card to-accent/10 p-10 sm:p-16 lg:p-20 glow-box transition-all duration-700 ${
-            isInView ? "" : ""
-          }`}
+          className={`reveal-on-scroll relative overflow-hidden rounded-3xl border border-primary/20 bg-gradient-to-br from-primary/10 via-card to-accent/10 p-10 sm:p-16 lg:p-20 glow-box transition-all duration-700 ${isInView ? "" : ""
+            }`}
         >
           <div className="pointer-events-none absolute -right-20 -top-20 h-80 w-80 rounded-full bg-primary/20 blur-3xl" />
           <div className="pointer-events-none absolute -bottom-20 -left-20 h-64 w-64 rounded-full bg-accent/15 blur-3xl" />
