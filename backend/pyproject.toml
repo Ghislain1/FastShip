@@ -63,8 +63,9 @@ dependencies = [
     "watchfiles==1.1.1",
     "websockets==16.0",
 ]
+
 [tool.fastapi]
-entrypoint="backend.app.main:app"
+entrypoint="app.main:app"
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
@@ -72,3 +73,5 @@ testpaths = ["backend/tests"]
 python_files = "test_*.py"
 python_classes = "Test*"
 python_functions = "test_*"
+
+ 

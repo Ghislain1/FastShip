@@ -1,6 +1,6 @@
 from uuid import UUID, uuid4
 from sqlmodel import Field, Relationship, SQLModel
-from backend.app.models.seller import Seller
+from app.models.seller import Seller
 
 
 class Product(SQLModel, table=True):

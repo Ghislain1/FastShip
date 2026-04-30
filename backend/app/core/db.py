@@ -5,9 +5,9 @@ from sqlmodel import SQLModel, select
 
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine, async_sessionmaker
 
-from backend.app.models.seller import Seller
-from backend.app.schemas.seller import SellerCreate
-from backend.app.services.seller_service import SellerService
+from app.models.seller import Seller
+from app.schemas.seller import SellerCreate
+from app.services.seller_service import SellerService
 
 from ..core.config import settings
 

@@ -105,3 +105,6 @@
   - Predefined  Style for react app
   - https://www.radix-ui.com/themes/docs/components/avatar
   - Test with chapgpt knowledge
+
+# Docker
+- generate requirements.txt in backend

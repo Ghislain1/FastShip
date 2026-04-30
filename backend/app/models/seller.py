@@ -6,7 +6,7 @@ from uuid import UUID, uuid4
 
 
 if TYPE_CHECKING:
-    from backend.app.models.product import Product  # adjust import path
+    from app.models.product import Product  # adjust import path
 
 
 def get_datetime_utc() -> datetime:

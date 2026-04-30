@@ -3,7 +3,7 @@ from enum import Enum as PyEnum
 from datetime import datetime
 from uuid import UUID, uuid4
 from sqlmodel import Field, Relationship, SQLModel
-from backend.app.models.shipment import Shipment
+from app.models.shipment import Shipment
 
 
 # Enum for order status
