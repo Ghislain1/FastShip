@@ -91,4 +91,16 @@
 - Pizza Delivery API
 -  https://www.youtube.com/watch?v=mPHZKqUgnDU&list=PLEt8Tae2spYnLMAf8RGCNYhovIFZHVsPP&index=3
 -  
-
+# AI
+- Opencode ai
+  - Install
+  - https://opencode.ai/docs/de#installation
+  - npm install -g opencode-ai > install  global in folder
+# Frontend
+- Tanstack  is react framework
+  - TanStack Router is a router for building React 
+  - npm install @tanstack/router-plugin --save-dev --legacy-peer-deps
+- Radix-ui
+  - Predefined  Style for react app
+  - https://www.radix-ui.com/themes/docs/components/avatar
+  - Test with chapgpt knowledge
