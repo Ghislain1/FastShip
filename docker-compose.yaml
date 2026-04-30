@@ -1,34 +1,65 @@
-# version: "3.9" [obsolete ]
-
-
-# Ghis: We haben hier 3 Services(API, prometheus, grafana)
 services:
-  api:
-    build: .
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: fastship-backend
     ports:
-      - "8000:8000" # From DockerFile http://localhost:8000/ 
- 
- # service 2:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=sqlite+aiosqlite:///./fastship.db
+    volumes:
+      - backend-data:/app/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    networks:
+      - fastship-net
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: fastship-frontend
+    ports:
+      - "4200:80"
+    depends_on:
+      - backend
+    networks:
+      - fastship-net
+
   prometheus:
     image: prom/prometheus:latest
+    container_name: fastship-prometheus
     volumes:
-      - ./app/prometheus.yaml:/etc/prometheus.prometheus.yaml
+      - ./backend/prometheus.yaml:/etc/prometheus/prometheus.yaml
     ports:
-      - "9090:9090"  # http://localhost:9090/ 
+      - "9090:9090"
+    networks:
+      - fastship-net
 
- # services 3:
   grafana:
     image: grafana/grafana:latest
+    container_name: fastship-grafana
     environment:
       GF_SECURITY_ADMIN_USER: admin
       GF_SECURITY_ADMIN_PASSWORD: admin
     ports:
-      - "3000:3000" # means http://localhost:3000/ 
+      - "3000:3000"
     volumes:
-      - grafana-data:/var/lib/grafana.
+      - grafana-data:/var/lib/grafana
     depends_on:
-      - prometheus  # Grafana soll starten nur wenn prometheus lauft
-
+      - prometheus
+    networks:
+      - fastship-net
 
 volumes:
-   grafana-data:
+  grafana-data:
+  backend-data:
+
+networks:
+  fastship-net:
+    driver: bridge
