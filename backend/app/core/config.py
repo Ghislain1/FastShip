@@ -10,7 +10,7 @@ class Settings(BaseSettings):
         env_ignore_empty=True,
         extra="ignore",
     )
-    DATABASE_URL: str = "sqlite+aiosqlite:///./fastship.db"  # U must install aiosqlite
+    DATABASE_URL: str = "postgresql+asyncpg://postgres:fastship123@localhost:5432/fastship"
     FIRST_SUPERUSER: EmailStr = "admin@admin.de"
     FIRST_SUPERUSER_PASSWORD: str = "admin"
     FIRST_SUPERUSER_NAME: str = "Admin"

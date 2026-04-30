@@ -1,4 +1,21 @@
 services:
+  db:
+    image: postgres:16-alpine
+    container_name: fastship-postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: fastship123
+      POSTGRES_DB: fastship
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - fastship-net
+
   backend:
     build:
       context: ./backend
@@ -7,9 +24,12 @@ services:
     ports:
       - "8000:8000"
     environment:
-      - DATABASE_URL=sqlite+aiosqlite:///./fastship.db
+      - DATABASE_URL=postgresql+asyncpg://postgres:fastship123@db:5432/fastship
     volumes:
       - backend-data:/app/data
+    depends_on:
+      db:
+        condition: service_healthy
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/"]
       interval: 30s
@@ -59,6 +79,7 @@ services:
 volumes:
   grafana-data:
   backend-data:
+  postgres-data:
 
 networks:
   fastship-net:

@@ -110,3 +110,4 @@
 - generate requirements.txt in backend
 - Start Docker Desktop on your machien :D
 - docker compose up --build    # start all 4 services
+- docker compose down -v  # Remove old volumes if needed
