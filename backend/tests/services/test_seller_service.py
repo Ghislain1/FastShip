@@ -1,6 +1,7 @@
 import pytest
-from sqlalchemy.ext.asyncio import AsyncSession
 from app.schemas.seller import SellerCreate
+from sqlalchemy.ext.asyncio import AsyncSession
+ 
 from app.services.seller_service import SellerService
 from tests.utils.utils import random_email, random_lower_string
 

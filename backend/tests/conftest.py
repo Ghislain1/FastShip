@@ -1,6 +1,10 @@
 import sys
 import os
 
+from backend import app
+
+ 
+
 sys.path.insert(
     0,
     os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),
@@ -12,7 +16,7 @@ from fastapi.testclient import TestClient
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sessionmaker
 from sqlmodel import SQLModel
 
-from app.main import app
+ 
 
 
 # In-memory async SQLite
