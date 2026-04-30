@@ -100,6 +100,7 @@
 - Tanstack  is react framework
   - TanStack Router is a router for building React 
   - npm install @tanstack/router-plugin --save-dev --legacy-peer-deps
+  - npm install @tanstack/router-plugin --save-dev --legacy-peer-deps
 - Radix-ui
   - Predefined  Style for react app
   - https://www.radix-ui.com/themes/docs/components/avatar
