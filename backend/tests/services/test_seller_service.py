@@ -1,7 +1,7 @@
 import pytest
 from app.schemas.seller import SellerCreate
 from sqlalchemy.ext.asyncio import AsyncSession
- 
+
 from app.services.seller_service import SellerService
 from tests.utils.utils import random_email, random_lower_string
 
@@ -10,9 +10,9 @@ from tests.utils.utils import random_email, random_lower_string
 async def test_create_seller(db: AsyncSession) -> None:
     email = random_email()
     password = random_lower_string()
-    username = random_lower_string()
+    name = random_lower_string()
     seller_in = SellerCreate(
-        email=email, password=password, username=username, name=username
+        email=email, password=password, name=name
     )
     seller = await SellerService(session=db).add_seller(seller_create=seller_in)
     assert seller.email == email

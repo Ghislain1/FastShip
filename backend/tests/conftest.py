@@ -1,14 +1,12 @@
 import sys
 import os
 
-from backend import app
-
- 
-
 sys.path.insert(
     0,
-    os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),
+    os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
 )
+
+os.environ["DATABASE_URL"] = "sqlite+aiosqlite:///:memory:"
 
 import pytest
 import pytest_asyncio
@@ -16,28 +14,18 @@ from fastapi.testclient import TestClient
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sessionmaker
 from sqlmodel import SQLModel
 
- 
-
-
-# In-memory async SQLite
-DATABASE_URL = "sqlite+aiosqlite:///:memory:"
+from app.main import app
+from app.core.db import get_async_session
 
 
 @pytest_asyncio.fixture(scope="function")
 async def db():
-    """Create async test database session"""
-    engine = create_async_engine(
-        DATABASE_URL,
-        echo=False,
-        future=True,
-    )
+    engine = create_async_engine(os.environ["DATABASE_URL"], echo=False)
 
     async with engine.begin() as conn:
         await conn.run_sync(SQLModel.metadata.create_all)
 
-    async_session = async_sessionmaker(
-        engine, class_=AsyncSession, expire_on_commit=False
-    )
+    async_session = async_sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
 
     async with async_session() as session:
         yield session
@@ -50,5 +38,17 @@ async def db():
 
 @pytest.fixture
 def client():
-    """Create test client"""
     return TestClient(app)
+
+
+@pytest_asyncio.fixture
+async def test_client(db: AsyncSession):
+    async def override_get_db():
+        yield db
+
+    app.dependency_overrides[get_async_session] = override_get_db
+    try:
+        with TestClient(app) as c:
+            yield c
+    finally:
+        app.dependency_overrides.clear()
