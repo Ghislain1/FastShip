@@ -109,40 +109,17 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Extract metadata
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-          images: |
-            ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_BACKEND }}
-            ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_FRONTEND }}
-          tags: |
-            type=ref,event=branch
-            type=sha,prefix=
-            type=raw,value=latest,enable=${{ github.ref == 'refs/heads/main' }}
-          flavor: lowercase=true
-
       - name: Build & push backend image
-        uses: docker/build-push-action@v6
-        with:
-          context: ./backend
-          file: ./backend/Dockerfile
-          push: true
-          tags: |
-            ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_BACKEND }}:{{github.sha}}
-          lowercase-tags: true
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+        run: |
+          TAG=$(echo ${{ github.sha }} | tr '[:upper:]' '[:lower:]')
+          docker tag fastship-backend ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_BACKEND }}:$TAG
+          docker push ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_BACKEND }}:$TAG
 
       - name: Build & push frontend image
-        uses: docker/build-push-action@v6
-        with:
-          context: ./frontend
-          file: ./frontend/Dockerfile
-          push: true
-          tags: |
-            ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_FRONTEND }}:{{github.sha}}
-          lowercase-tags: true
+        run: |
+          TAG=$(echo ${{ github.sha }} | tr '[:upper:]' '[:lower:]')
+          docker tag fastship-frontend ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_FRONTEND }}:$TAG
+          docker push ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_FRONTEND }}:$TAG
 
   deploy-staging:
     name: Deploy to Staging
