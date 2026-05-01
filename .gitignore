@@ -4,7 +4,7 @@ __pycache__/
 *$py.class
 .venv/
 *.db
-
+node_modules/
 
 # C extensions
 *.so

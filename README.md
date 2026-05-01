@@ -1,5 +1,11 @@
 # FastShip
 A learning-focused FastAPI repository built around a simple Pizza Delivery API. This project is designed to learn FastAPI and SQLModel by reading [official documentation](https://fastapi.tiangolo.com/learn/) and applying concepts step by step in a real-world CRUD API.
+
+Run with:
+- npm run dev - starts both (backend on port 8000, frontend on 4200)
+- npm run dev:frontend - frontend only
+- npm run dev:backend - backend only
+  
 [based on](https://github.com/fastapi/full-stack-fastapi-template)
 # Docker
 - Starting

@@ -1,0 +1,15 @@
+{
+  "name": "fastship",
+  "scripts": {
+    "dev": "concurrently -n Backend,Frontend -c cyan,green \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:frontend": "npm run dev --workspace=frontend",
+    "dev:backend": "cd backend && set DATABASE_URL=sqlite+aiosqlite:///./fastship.db && uv run uvicorn app.main:app --host 127.0.0.1 --port 8000 --reload",
+    "install:all": "npm install && cd frontend && npm install"
+  },
+  "workspaces": [
+    "frontend"
+  ],
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}
