@@ -1,12 +1,12 @@
 import { useMemo } from "react";
-import { generateFloatingParticles } from "../../lib/particles";
+import { generateFloatingParticles, type Particle } from "../../lib/particles";
 
 export function FloatingParticles() {
   const particles = useMemo(() => generateFloatingParticles(), []);
 
   return (
     <div className="pointer-events-none fixed inset-0 z-0">
-      {particles.map((p) => (
+      {particles.map((p: Particle) => (
         <div
           key={p.id}
           className="absolute rounded-full bg-primary/30"
@@ -23,6 +23,3 @@ export function FloatingParticles() {
   );
 }
 
-export function GridOverlay() {
-  return <div className="pointer-events-none fixed inset-0 z-0 opacity-30 grid-bg" />;
-}
