@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { generateFloatingParticles } from "../../../lib/particles";
+import { generateFloatingParticles } from "../../lib/particles";
 
 export function FloatingParticles() {
   const particles = useMemo(() => generateFloatingParticles(), []);
