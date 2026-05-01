@@ -1,4 +1,4 @@
-name: CD/Docker Pipeline
+name: CD[Docker] Pipeline
 
 on:
   push:
@@ -14,7 +14,7 @@ env:
 
 jobs:
   build-and-test:
-    name: Build & Test - JOB1
+    name: Build & Test  Job
     runs-on: ubuntu-latest
 
     steps:
@@ -87,7 +87,7 @@ jobs:
           retention-days: 7
 
   build-images:
-    name: Build & Push Images -JOB 2
+    name: Build & Push Images Job
     runs-on: ubuntu-latest
     needs: build-and-test
     if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop')
@@ -132,7 +132,7 @@ jobs:
 # Ensure using proper output format from docker/metadata-action
 
   deploy-staging:
-    name: Deploy to Staging - JOB3
+    name: Deploy to Staging - job
     runs-on: ubuntu-latest
     needs: build-images
     if: github.ref == 'refs/heads/develop'
