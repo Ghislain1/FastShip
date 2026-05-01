@@ -24,11 +24,26 @@ export default function RegisterPage() {
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.detail || "Registration failed");
+        // Try to parse error as JSON, fallback to status text
+        let errorMessage = "Registration failed";
+        try {
+          const errorData = await response.json();
+          errorMessage = errorData.detail || errorMessage;
+        } catch (e) {
+          // If response is not JSON, use status text
+          errorMessage = response.statusText || errorMessage;
+        }
+        throw new Error(errorMessage);
       }
 
-      const data = await response.json();
+      // Try to parse response as JSON
+      let data;
+      try {
+        data = await response.json();
+      } catch (e) {
+        throw new Error("Invalid response from server");
+      }
+
       setSuccess(true);
       // Redirect to login after a short delay
       setTimeout(() => {
