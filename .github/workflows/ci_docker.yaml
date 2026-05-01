@@ -110,16 +110,26 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build & push backend image
-        run: |
-          TAG=$(echo ${{ github.sha }} | tr '[:upper:]' '[:lower:]')
-          docker tag fastship-backend ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_BACKEND }}:$TAG
-          docker push ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_BACKEND }}:$TAG
+        uses: docker/build-push-action@v6
+        with:
+          context: ./backend
+          file: ./backend/Dockerfile
+          push: true
+          tags: ghcr.io/${{ github.actor }}/fastship-backend:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
       - name: Build & push frontend image
-        run: |
-          TAG=$(echo ${{ github.sha }} | tr '[:upper:]' '[:lower:]')
-          docker tag fastship-frontend ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_FRONTEND }}:$TAG
-          docker push ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_FRONTEND }}:$TAG
+        uses: docker/build-push-action@v6
+        with:
+          context: ./frontend
+          file: ./frontend/Dockerfile
+          push: true
+          tags: ghcr.io/${{ github.actor }}/fastship-frontend:${{ github.sha }}
+
+
+# NOTE: SHA needs to be lowercase for GHCR
+# Ensure using proper output format from docker/metadata-action
 
   deploy-staging:
     name: Deploy to Staging
