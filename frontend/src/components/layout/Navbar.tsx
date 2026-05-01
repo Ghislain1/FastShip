@@ -12,19 +12,20 @@ export default function Navbar() {
     }, []);
 
     return (
+
         <header
-            className={`sticky fixed top-0 z-50 transition-all duration-500 ${scrolled ? "glass-strong border-b border-border" : "bg-transparent"
+            className={`fixed top-0 inset-0 z-50 h-20 justify-center transition-all duration-1000 ${scrolled ? "glass-strong border-b border-green" : "bg-transparent"
                 }`}
         >
-            <div className="container mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
-                <div className="flex items-center gap-2">
+            <div className="container  mx-auto flex h-20 max-w-6xl items-center justify-center px-4">
+                <div className="flex items-center gap-2 mx-12">
                     <div className="relative">
                         <svg
                             className="h-7 w-7 text-primary animate-pulse-glow rounded-md"
                             viewBox="0 0 24 24"
                             fill="none"
                             stroke="currentColor"
-                            strokeWidth={2}
+                            strokeWidth={3}
                             strokeLinecap="round"
                             strokeLinejoin="round"
                         >
@@ -37,7 +38,7 @@ export default function Navbar() {
                         FastShip
                     </span>
                 </div>
-                <nav className="hidden items-center gap-8 md:flex">
+                <nav className="hidden items-center gap-8 md:flex flex-grow">
                     {["Track", "Features", "How it works", "For Sellers"].map((item) => (
                         <a
                             key={item}
@@ -66,5 +67,6 @@ export default function Navbar() {
                 </div>
             </div>
         </header>
+
     );
 }
