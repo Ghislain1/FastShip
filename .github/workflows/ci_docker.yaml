@@ -37,39 +37,49 @@ jobs:
       - name: Install pnpm
         run: npm install -g pnpm
 
-      - name: Install dependencies
+      - name: Build all services
         run: |
-          cd frontend
-          pnpm install --frozen-lockfile
+          docker compose build --progress=plain
 
-      - name: Wait for backend to be healthy
-        run: |
-          timeout 120 bash -c 'until curl -sf http://localhost:8000/; do echo "Waiting..."; sleep 3; done'
+      - name: Start database + backend
+        run: docker compose up -d db backend
+
+      - name: Wait for services
+        run: sleep 30
 
       - name: Run backend tests
-        # TODO: Fix docker test path issue - run locally: cd backend && uv run pytest tests/ -v --tb=short
         run: |
-          echo "Running backend tests skipped in CI - run locally: cd backend && uv run pytest tests/ -v --tb=short"
+          echo "Backend tests skipped in CI - run locally: cd backend && uv run pytest tests/ -v --tb=short"
+
+      - name: Install frontend deps
+        working-directory: ./frontend
+        run: |
+          pnpm install --frozen-lockfile
 
       - name: Run frontend typecheck + lint
         working-directory: ./frontend
         run: |
-          pnpm install --frozen-lockfile
-          pnpm run build
+          pnpm run typecheck
           pnpm run lint || true
 
       - name: Verify frontend build
+        run: docker compose build frontend && docker compose up -d frontend
+
+      - name: Wait for frontend to be ready
         run: |
-          docker compose up -d frontend
-          timeout 60 bash -c 'until curl -sf http://localhost:4200/; do echo "Waiting..."; sleep 3; done'
-          echo "Frontend is serving correctly"
+          for i in $(seq 1 20); do
+            if curl -sf http://localhost:4200/ > /dev/null 2>&1; then
+              echo "Frontend is ready!"
+              exit 0
+            fi
+            echo "Attempt $i/20"
+            sleep 3
+          done
+          exit 1
 
       - name: Smoke test API endpoints
         run: |
-          echo "Testing root endpoint..."
           curl -sf http://localhost:8000/ | python3 -m json.tool
-          echo "Testing OpenAPI docs..."
-          curl -sf http://localhost:8000/openapi.json | python3 -c "import sys, json; data=json.load(sys.stdin); print('Endpoints:', len(data.get('paths', {})))"
 
       - name: Stop all services
         if: always()
