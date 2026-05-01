@@ -12,7 +12,10 @@ class TestSettings:
         # Reload Settings to get fresh instance without env override
         os.environ.pop("DATABASE_URL", None)
         settings = Settings()
-        assert settings.DATABASE_URL == "postgresql+asyncpg://postgres:fastship123@localhost:5432/fastship"
+        assert (
+            settings.DATABASE_URL
+            == "postgresql+asyncpg://postgres:fastship123@localhost:5432/fastship"
+        )
 
     def test_default_superuser(self):
         settings = Settings()
@@ -32,7 +35,10 @@ class TestSettings:
 
     def test_authjwt_secret_key(self):
         settings = Settings()
-        assert settings.authjwt_secret_key == "b223e6d3a9a3ec3f00c38f7ad5f9344c22fde8f11edb85caf41623d8f27de345"
+        assert (
+            settings.authjwt_secret_key
+            == "b223e6d3a9a3ec3f00c38f7ad5f9344c22fde8f11edb85caf41623d8f27de345"
+        )
 
     def test_authjwt_algorithm(self):
         settings = Settings()
@@ -44,6 +50,7 @@ class TestSettings:
 
     def test_settings_instance(self):
         from app.core.config import settings
+
         assert isinstance(settings, Settings)
 
     def test_model_config_env_file(self):
