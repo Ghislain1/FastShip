@@ -1,22 +1,20 @@
-import sys
 import os
-import importlib.util
+import sys
 
-# Add app directory to path
+import pytest
+import pytest_asyncio
+from fastapi.testclient import TestClient
+from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
+from sqlmodel import SQLModel
+
+from app.core.db import get_async_session
+from app.main import app
+
 app_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "app")
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(0, app_dir)
 
 os.environ["DATABASE_URL"] = "sqlite+aiosqlite:///:memory:"
-
-import pytest
-import pytest_asyncio
-from fastapi.testclient import TestClient
-from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sessionmaker
-from sqlmodel import SQLModel
-
-from app.main import app
-from app.core.db import get_async_session
 
 
 @pytest_asyncio.fixture(scope="function")

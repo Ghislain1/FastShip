@@ -1,8 +1,4 @@
 import os
-import pytest
-
-# Clear DATABASE_URL set by conftest.py before importing Settings
-os.environ.pop("DATABASE_URL", None)
 
 from app.core.config import Settings
 
