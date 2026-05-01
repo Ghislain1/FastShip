@@ -1,10 +1,11 @@
 import sys
 import os
+import importlib.util
 
-sys.path.insert(
-    0,
-    os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
-)
+# Add app directory to path
+app_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "app")
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.insert(0, app_dir)
 
 os.environ["DATABASE_URL"] = "sqlite+aiosqlite:///:memory:"
 

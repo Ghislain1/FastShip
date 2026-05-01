@@ -10,8 +10,9 @@ FROM base AS test
 COPY . .
 
 ENV DATABASE_URL=sqlite+aiosqlite:///./test.db
+ENV PYTHONPATH=/app
 
-RUN pytest -v --tb=short
+RUN pytest tests/ -v --tb=short
 
 FROM base AS production
 

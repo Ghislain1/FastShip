@@ -25,6 +25,7 @@ services:
       - "8000:8000"
     environment:
       - DATABASE_URL=postgresql+asyncpg://postgres:fastship123@db:5432/fastship
+      - PYTHONPATH=/app
     volumes:
       - backend-data:/app/data
     depends_on:
