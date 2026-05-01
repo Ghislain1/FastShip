@@ -35,11 +35,9 @@ jobs:
 
       - name: Run tests
         run: |
-          if [ -d "backend/tests" ]; then
-            rm -f test.db *.db
-            cd backend
-            DATABASE_URL=sqlite+aiosqlite:///./test.db uv run pytest tests/ -v
-          fi
+          cd backend
+          rm -f test.db *.db
+          PYTHONPATH=. DATABASE_URL=sqlite+aiosqlite:///./test.db uv run pytest tests/ -v
 
       - name: Summary
         run: echo "✅ Build successful!"
