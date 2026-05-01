@@ -1,5 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
-import Hero from '~/components/Hero';
+import Hero from "~/components/ui/Hero";
 
 export const Route = createFileRoute('/')({
     component: HomePage,
