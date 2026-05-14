@@ -1,6 +1,7 @@
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 # Externe Libs
 from prometheus_fastapi_instrumentator import Instrumentator
@@ -26,6 +27,20 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(lifespan=lifespan, title="FastShip")
+
+# Configure CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+        "http://localhost:4200",
+        "http://127.0.0.1:4200",
+    ],  # Frontend Vite dev server
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Create behing the scene endpoint /metrics
 Instrumentator().instrument(app=app).expose(app=app)

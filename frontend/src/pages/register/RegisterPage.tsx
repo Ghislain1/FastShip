@@ -13,7 +13,7 @@ export default function RegisterPage() {
     e.preventDefault();
     setLoading(true);
     setError(null);
-    
+
     try {
       const response = await fetch("/auth/signup", {
         method: "POST",
@@ -106,7 +106,7 @@ export default function RegisterPage() {
             <input
               id="password"
               type="password"
-              placeholder="••••••••"
+              placeholder="••"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="w-full rounded-lg border border-border bg-background px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground/60 focus:border-ring focus:outline-none focus:ring-2 focus:ring-ring/20"
