@@ -28,7 +28,7 @@ Run with: (Docker Desktop)
 - docker build --tag ghis . ===> creat eimage named ghis
 - docker run -d -p 8000:8000 youimagename ==>  run the image
 - docker-compose up --build ==>   Run  Docker with all custom services
-- 
+
 ## External packages
 - prometheus-fastapi-instrumentator:
   - prometheus for fastapi
