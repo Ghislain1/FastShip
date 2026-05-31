@@ -19,10 +19,16 @@ type AuthContextType = {
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
+function base64UrlDecode(str: string): string {
+  const base64 = str.replace(/-/g, "+").replace(/_/g, "/");
+  const padded = base64.padEnd(base64.length + ((4 - (base64.length % 4)) % 4), "=");
+  return atob(padded);
+}
+
 function decodeToken(token: string): User | null {
   try {
     const payload = token.split(".")[1];
-    const decoded = JSON.parse(atob(payload));
+    const decoded = JSON.parse(base64UrlDecode(payload));
     return decoded.user ?? null;
   } catch {
     return null;

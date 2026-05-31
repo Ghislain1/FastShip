@@ -1,6 +1,7 @@
 import { Outlet, createRootRouteWithContext } from "@tanstack/react-router";
 import { HeadContent } from "@tanstack/react-router";
 import type { QueryClient } from "@tanstack/react-query";
+import { AuthProvider } from "../contexts/AuthContext";
 
 function NotFoundComponent() {
   return (
@@ -50,9 +51,9 @@ export const Route = createRootRouteWithContext<{
 
 function RootComponent() {
   return (
-    <>
+    <AuthProvider>
       <HeadContent />
       <Outlet />
-    </>
+    </AuthProvider>
   );
 }

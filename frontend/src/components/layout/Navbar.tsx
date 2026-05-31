@@ -1,15 +1,23 @@
-import { Link } from "@tanstack/react-router";
+import { Link, useRouter } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
+import { useAuth } from "../../contexts/AuthContext";
 
 
 export default function Navbar() {
     const [scrolled, setScrolled] = useState(false);
+    const { user, isAuthenticated, logout } = useAuth();
+    const router = useRouter();
 
     useEffect(() => {
         const onScroll = () => setScrolled(window.scrollY > 20);
         window.addEventListener("scroll", onScroll, { passive: true });
         return () => window.removeEventListener("scroll", onScroll);
     }, []);
+
+    const handleLogout = () => {
+        logout();
+        router.navigate({ to: "/" });
+    };
 
     return (
 
@@ -51,19 +59,35 @@ export default function Navbar() {
                     ))}
                 </nav>
                 <div className="flex items-center gap-3">
-                    <Link
-                        to="/login"
-                        className="rounded-md px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent"
-                    >
-                        Sign in
-                    </Link>
-                    <Link
-                        to="/register"
-                        className="relative overflow-hidden rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-all hover:shadow-lg hover:shadow-primary/25"
-                    >
-                        <span className="relative z-10">Get started</span>
-                        <div className="animate-shimmer absolute inset-0" />
-                    </Link>
+                    {isAuthenticated && user ? (
+                        <>
+                            <span className="text-sm font-medium text-foreground">
+                                {user.name}
+                            </span>
+                            <button
+                                onClick={handleLogout}
+                                className="rounded-md px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent"
+                            >
+                                Sign out
+                            </button>
+                        </>
+                    ) : (
+                        <>
+                            <Link
+                                to="/login"
+                                className="rounded-md px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent"
+                            >
+                                Sign in
+                            </Link>
+                            <Link
+                                to="/register"
+                                className="relative overflow-hidden rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-all hover:shadow-lg hover:shadow-primary/25"
+                            >
+                                <span className="relative z-10">Get started</span>
+                                <div className="animate-shimmer absolute inset-0" />
+                            </Link>
+                        </>
+                    )}
                 </div>
             </div>
         </header>
