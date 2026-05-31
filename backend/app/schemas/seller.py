@@ -14,10 +14,6 @@ class SellerPublic(SellerBase):
     id: UUID | None = None
 
 
-class SellerUpdate(SellerBase):
-    id: UUID | None = None
-
-
 class SellersPublic(SQLModel):
     data: list[SellerPublic]
     count: int

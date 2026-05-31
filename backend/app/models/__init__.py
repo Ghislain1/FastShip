@@ -15,7 +15,5 @@ from app.models.seller import Seller
 from app.models.product import Product
 from app.models.order import Order
 from app.models.shipment import Shipment
-from app.models.shipment_event import ShipmentEvent
-
 # TODO@Ghis why do you do that?
-__all__ = [Seller, Product, Order, Shipment, ShipmentEvent]
+__all__ = [Seller, Product, Order, Shipment]

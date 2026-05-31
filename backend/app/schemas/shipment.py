@@ -12,5 +12,4 @@ class ShipmentPublic(ShipmentBase):
     id: UUID
 
 
-class ShipmentUpdate(ShipmentBase):
-    id: UUID | None = None
+

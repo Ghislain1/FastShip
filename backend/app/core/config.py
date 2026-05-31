@@ -16,8 +16,6 @@ class Settings(BaseSettings):
     FIRST_SUPERUSER: EmailStr = "admin@admin.de"
     FIRST_SUPERUSER_PASSWORD: str = "admin"
     FIRST_SUPERUSER_NAME: str = "Admin"
-    EMAIL_TEST_USER: EmailStr = "test@example.com"
-
     authjwt_secret_key: str = (
         "b223e6d3a9a3ec3f00c38f7ad5f9344c22fde8f11edb85caf41623d8f27de345"
     )

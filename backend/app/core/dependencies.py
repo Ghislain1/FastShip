@@ -6,7 +6,6 @@ from .db import get_async_session
 from ..services.seller_service import SellerService
 from ..services.shipment_service import ShipmentService
 from ..services.order_service import OrderService
-from ..services.printer_service import PrinterService
 from sqlalchemy.ext.asyncio import AsyncSession
 
 
@@ -18,11 +17,6 @@ def get_seller_service(session: Annotated[AsyncSession, Depends(get_async_sessio
 @lru_cache
 def get_order_service(session: Annotated[AsyncSession, Depends(get_async_session)]):
     return OrderService(session=session)
-
-
-@lru_cache
-def get_printer_service():
-    return PrinterService()
 
 
 @lru_cache

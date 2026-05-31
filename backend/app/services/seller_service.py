@@ -23,14 +23,23 @@ class SellerService:
 
     async def add_seller(self, seller_create: SellerCreate) -> Seller:
         """Create a new seller with hashed password"""
+
+        # Check for duplicate email
+        statement = select(Seller).where(Seller.email == seller_create.email)
+        existing = await self.session.execute(statement=statement)
+        if existing.scalar() is not None:
+            raise HTTPException(
+                status_code=status.HTTP_409_CONFLICT,
+                detail="A seller with this email already exists",
+            )
+
         # Hash the plain password
         hashed_password = self.pwd_context.hash(seller_create.password)
 
         # Create DB model
-        # Magic: model_validate copies fields + adds hashed_password
-        db_seller = Seller.model_validate(
-            seller_create, update={"hashed_password": hashed_password}
-        )
+        seller_data = seller_create.model_dump()
+        seller_data.pop("password", None)
+        db_seller = Seller(**seller_data, hashed_password=hashed_password)
         self.session.add(db_seller)
         await self.session.commit()
         await self.session.refresh(db_seller)
@@ -92,7 +101,7 @@ class SellerService:
         # Data
         data = {
             "user": {
-                "name": seller.username,
+                "name": seller.name,
                 "email": seller.email,
                 "id": seller.id,
             }
