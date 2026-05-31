@@ -82,6 +82,7 @@ class SellerService:
 
         result = await self.session.execute(statement=statement)
 
+        # Represents One row from Seller Table
         seller = result.scalar()
 
         if seller is None:
@@ -103,7 +104,7 @@ class SellerService:
             "user": {
                 "name": seller.name,
                 "email": seller.email,
-                "id": seller.id,
+                "id": str(seller.id),  # because UUID is not serializable
             }
         }
 
