@@ -1,4 +1,14 @@
 # GrundIdee
+Agent = Wer arbeitet?
+
+Senior React Developer
+
+Skill = Welches Wissen braucht er?
+
+loader, clientLoader, Testing, Performance, Architecture ...
+
+Command = Welcher Workflow soll ausgeführt werden?
+
 - Product → Produkte (z. B. Ball, Schuhe)
 - Seller → Verkäufer (wer verkauft das Produkt)
 - Order → Bestellung (Kunde kauft etwas)
