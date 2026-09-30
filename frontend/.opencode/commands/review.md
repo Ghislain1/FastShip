@@ -1,79 +1,47 @@
 ---
-description:  Review the selected code as a senior Python/FastAPI developer.
+description: Perform a senior React code review
 agent: plan
 ---
 
-# Senior Code Review
+Review the selected code.
 
-Check for:
+Check:
 
 ## Architecture
+- component responsibilities
+- data flow
+- loader/clientLoader usage
 
-- separation of concerns
-- dependency injection
-- coupling
-- SOLID violations
-- unnecessary abstractions
-- duplicated logic
+## React
+- hooks
+- state
+- effects
+- rendering
 
-## Python
+## TypeScript
+- type safety
+- unnecessary any
+- API types
 
-- type hints
-- Pythonic code
-- error handling
-- unnecessary complexity
-- resource management
-
-## FastAPI
-
-- route design
-- dependency injection
-- response models
-- status codes
-- validation
-- exception handling
-
-## Database
-
-- inefficient queries
-- N+1 queries
-- transaction handling
-- session lifecycle
-- indexes
-- unnecessary database calls
-
-## Async
-
-Check for:
-
-- blocking operations
-- incorrect async usage
-- unnecessary async
-- sync/async mixing
+## Performance
+- renders
+- requests
+- waterfalls
+- bundle impact
 
 ## Security
-
-Check for:
-
+- sensitive data
 - authentication
-- authorization
-- injection risks
-- sensitive information
-- insecure configuration
+- XSS risks
 
 ## Testing
+- missing important tests
 
-Check whether important behavior is covered.
+Return:
 
-## Output
-
-For every finding provide:
-
-Severity:
-File:
-Location:
-Problem:
-Why it matters:
-Recommended fix:
-
-Do not report purely stylistic preferences unless they have practical impact.
+1. Critical issues
+2. Architectural issues
+3. Maintainability issues
+4. Performance issues
+5. Testing gaps
+6. Suggested changes
