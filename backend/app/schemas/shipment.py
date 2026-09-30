@@ -10,6 +10,3 @@ class ShipmentCreate(ShipmentBase):
 
 class ShipmentPublic(ShipmentBase):
     id: UUID
-
-
-

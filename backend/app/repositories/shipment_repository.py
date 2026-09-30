@@ -1,5 +1,6 @@
 from uuid import UUID
 
+from sqlalchemy import func
 from sqlmodel import select
 from sqlmodel.ext.asyncio.session import AsyncSession
 
@@ -17,6 +18,10 @@ class ShipmentRepository:
         statement = select(Shipment).offset(offset).limit(limit)
         result = await self.session.execute(statement)
         return list(result.scalars().all())
+
+    async def count(self) -> int:
+        statement = select(func.count()).select_from(Shipment)
+        return await self.session.scalar(statement)
 
     async def add(self, shipment: Shipment) -> Shipment:
         self.session.add(shipment)

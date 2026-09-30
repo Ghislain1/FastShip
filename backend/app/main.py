@@ -12,7 +12,13 @@ from .routers.auth_routes import router as auth_router
 from .routers.order_routes import router as order_router
 from .routers.seller_router import router as seller_router
 from .routers.shipment import router as shipment_router
-from .core.db import create_db_and_tables, seed_db_if_empty
+from .core.config import settings
+from .core.db import (
+    async_session_maker,
+    create_db_and_tables,
+    seed_db_if_empty,
+)
+from .core.seed_data import seed_mock_shipments
 
 from .core.middlewares import CustomMiddleware
 
@@ -22,6 +28,12 @@ async def lifespan(app: FastAPI):
     # PrinterDep().print_info("MAIN", "################ Create DB AND TABLES")
     await create_db_and_tables()
     await seed_db_if_empty()
+
+    if settings.MOCK_SEED:
+        async with async_session_maker() as session:
+            seeded = await seed_mock_shipments(session)
+        if seeded:
+            print(f"[seed] inserted {seeded} mock shipments")
 
     yield
 

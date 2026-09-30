@@ -45,8 +45,8 @@ async def seed_db_if_empty() -> None:
                 email=settings.FIRST_SUPERUSER,
                 password=settings.FIRST_SUPERUSER_PASSWORD,
                 name=settings.FIRST_SUPERUSER_NAME,
-                is_superuser=True,
-            )
+            ),
+            is_superuser=True,
         )
 
 

@@ -1,5 +1,6 @@
 from uuid import UUID
 
+from sqlalchemy import func
 from sqlmodel import select
 from sqlmodel.ext.asyncio.session import AsyncSession
 
@@ -16,6 +17,10 @@ class OrderRepository:
     async def list(self) -> list[Order]:
         result = await self.session.execute(select(Order))
         return list(result.scalars().all())
+
+    async def count(self) -> int:
+        statement = select(func.count()).select_from(Order)
+        return await self.session.scalar(statement)
 
     async def add(self, order: Order) -> Order:
         self.session.add(order)

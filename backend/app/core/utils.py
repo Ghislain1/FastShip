@@ -1,11 +1,14 @@
 from datetime import datetime, timedelta, timezone
+from typing import Any
 
 import jwt
 
+from .config import settings
+
 
 # @TODO Must be move to .env
-_key = "ANY_KEY_GHISLAIN"
-_algo = "HS256"
+_key = settings.authjwt_secret_key
+_algo = settings.authjwt_algorithm
 
 
 def generate_access_token(data: dict, expiry: timedelta = timedelta(hours=1)):
@@ -19,7 +22,7 @@ def generate_access_token(data: dict, expiry: timedelta = timedelta(hours=1)):
     return tk
 
 
-def decode_access_token(token: str) -> dict[str, any]:
+def decode_access_token(token: str) -> dict[str, Any]:
     return jwt.decode(jwt=token, key=_key, algorithms=[_algo])
 
 

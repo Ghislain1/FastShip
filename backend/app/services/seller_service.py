@@ -23,8 +23,14 @@ class SellerService:
         self.session = session
         self.repository = SellerRepository(session)
 
-    async def add_seller(self, seller_create: SellerCreate) -> Seller:
-        """Create a new seller with hashed password"""
+    async def add_seller(
+        self, seller_create: SellerCreate, *, is_superuser: bool = False
+    ) -> Seller:
+        """Create a new seller with hashed password.
+
+        `is_superuser` is keyword-only and not part of the request schema, so
+        the API cannot set it. Only internal callers (the seeder) may.
+        """
 
         # Check for duplicate email
         existing = await self.repository.get_by_email(seller_create.email)
@@ -40,7 +46,11 @@ class SellerService:
         # Create DB model
         seller_data = seller_create.model_dump()
         seller_data.pop("password", None)
-        db_seller = Seller(**seller_data, hashed_password=hashed_password)
+        db_seller = Seller(
+            **seller_data,
+            hashed_password=hashed_password,
+            is_superuser=is_superuser,
+        )
         return await self.repository.add(db_seller)
 
     async def all(self, offset: int, limit: int) -> list[Seller]:
@@ -65,23 +75,22 @@ class SellerService:
 
         return db_seller
 
-    async def token(self, email, password) -> str:
-        """Valide the credentials"""
+    async def token(self, email, password) -> dict:
+        """Validate the credentials.
+
+        Unknown email and wrong password deliberately share one message so the
+        endpoint cannot be used to enumerate registered sellers.
+        """
 
         seller = await self.repository.get_by_email(email)
 
-        if seller is None:
+        if seller is None or not self.pwd_context.verify(
+            password, seller.hashed_password
+        ):
             raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
-                detail="[Ghis]> The seller with that email is not found!!",
-            )
-
-        # Check Password
-        is_ok = self.pwd_context.verify(password, seller.hashed_password)
-        if not is_ok:
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
-                detail="[Ghis]> The seller with that Password is incorrect!",
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Incorrect email or password",
+                headers={"WWW-Authenticate": "Bearer"},
             )
 
         # Data

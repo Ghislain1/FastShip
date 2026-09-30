@@ -27,6 +27,10 @@ class Settings(BaseSettings):
     authjwt_algorithm: str = "HS256"
     authjwt_access_token_expires: int = 100  # seconds
 
+    # Dev only: inserts fake shipments/orders on startup. Opt in with
+    # MOCK_SEED=true. Keep it off in any deployed environment.
+    MOCK_SEED: bool = False
+
 
 # One Instance of Setting
 settings = Settings()
