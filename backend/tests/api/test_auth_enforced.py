@@ -9,7 +9,7 @@ from tests.utils.utils import auth_headers, random_email
 
 PROTECTED_ENDPOINTS = [
     "/sellers/",
-    "/shipment/",
+    "/shipments",
     "/order/",
     "/order/user/order/1/",
 ]
@@ -39,9 +39,9 @@ def test_sellers_requires_a_valid_token(test_client, registered_seller):
     assert response.json()["count"] == 1
 
 
-def test_shipment_accepts_a_valid_token(test_client, registered_seller):
+def test_shipments_accepts_a_valid_token(test_client, registered_seller):
     headers = auth_headers(registered_seller["email"])
-    assert test_client.get("/shipment/", headers=headers).status_code == 200
+    assert test_client.get("/shipments", headers=headers).status_code == 200
 
 
 def test_token_signed_with_another_key_is_rejected(test_client, registered_seller):

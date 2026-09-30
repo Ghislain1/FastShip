@@ -1,4 +1,5 @@
-import { useInView } from "../../../hooks/use-in-view";
+import { Link } from "react-router";
+import { useInView } from "../../hooks/use-in-view";
 
 export function HeroSection() {
   const { ref, isInView } = useInView();
@@ -53,13 +54,13 @@ export function HeroSection() {
           className={`mt-12 flex flex-col items-center justify-center gap-4 sm:flex-row transition-all duration-700 delay-500 ${isInView ? "animate-reveal" : "opacity-0"
             }`}
         >
-          <a
-            href="/register"
+          <Link
+            to="/register"
             className="group relative inline-flex h-14 items-center justify-center overflow-hidden rounded-xl bg-primary px-10 text-base font-medium text-primary-foreground shadow-lg shadow-primary/20 transition-all hover:shadow-xl hover:shadow-primary/30"
           >
             <span className="relative z-10">Start selling free</span>
             <div className="animate-shimmer absolute inset-0" />
-          </a>
+          </Link>
           <a
             href="#track"
             className="group inline-flex h-14 items-center justify-center rounded-xl border border-border bg-background/50 px-10 text-base font-medium text-foreground backdrop-blur transition-all hover:border-primary/40 hover:bg-background/80"

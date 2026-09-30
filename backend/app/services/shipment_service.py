@@ -1,96 +1,89 @@
-from passlib.context import CryptContext
-from sqlmodel import select
+from uuid import UUID
+
 from fastapi.exceptions import HTTPException
 from starlette import status
 
-from ..core.utils import generate_access_token
-
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from ..models.shipment import Shipment
+from ..models.shipment import Shipment, ShipmentStatus
+from ..repositories.order_repository import OrderRepository
 from ..repositories.shipment_repository import ShipmentRepository
-from ..schemas.shipment import ShipmentCreate
+from ..schemas.shipment import ShipmentCreate, ShipmentUpdate
 
 
 class ShipmentService:
+    """Business rules for shipments. All queries live in the repositories."""
+
     def __init__(self, session: AsyncSession):
-        # Argon2 (no length limit, more modern)
-        self.pwd_context = CryptContext(schemes=["argon2"], deprecated="auto")
         self.session = session
         self.repository = ShipmentRepository(session)
+        self.order_repository = OrderRepository(session)
 
-    async def create_shipment(self, customer_create: ShipmentCreate) -> Shipment:
-        """Create a new customer with hashed password"""
-        # Hash the plain password
-        hashed_password = self.pwd_context.hash(customer_create.password)
+    async def create_shipment(self, shipment_create: ShipmentCreate) -> Shipment:
+        shipment = Shipment.model_validate(shipment_create)
+        return await self.repository.add(shipment)
 
-        # Create DB model
-        # Magic: model_validate copies fields + adds hashed_password
-        db_customer = Shipment.model_validate(
-            customer_create, update={"hashed_password": hashed_password}
+    async def load_shipments(
+        self,
+        offset: int,
+        limit: int,
+        *,
+        status_filter: ShipmentStatus | None = None,
+        destination: str | None = None,
+        sort_by: str = "tracking_number",
+        descending: bool = False,
+    ) -> list[Shipment]:
+        return await self.repository.list(
+            offset,
+            limit,
+            status=status_filter,
+            destination=destination,
+            sort_by=sort_by,
+            descending=descending,
         )
-        return await self.repository.add(db_customer)
 
-    async def load_shipments(self, offset: int, limit: int) -> list[Shipment]:
-        """Load all customers from database"""
-
-        return await self.repository.list(offset, limit)
-
-    # @TODO
-    def get_customer_by_email(self, email: str):
-        """Get Customer  from database"""
-        statement = select(Shipment)
-        db_customer = self.session.exec(
-            statement.filter(Shipment.email == email).first()
+    async def count_shipments(
+        self,
+        *,
+        status_filter: ShipmentStatus | None = None,
+        destination: str | None = None,
+    ) -> int:
+        """Total matching the same filters as `load_shipments`."""
+        return await self.repository.count(
+            status=status_filter, destination=destination
         )
 
-        if db_customer is not None:
-            return HTTPException(402, detail="email is already used!..")
-
-        #  Check name
-
-        return db_customer
-
-    async def token(self, email, password) -> str:
-        """Valide the credentials"""
-
-        condition_on_email = Shipment.email == email
-        # Select the table like the name of method @TODO Ghis select from sqlmodel
-        statement = select(Shipment).where(condition_on_email)
-
-        result = await self.session.execute(statement=statement)
-
-        customer = result.scalar()
-
-        if customer is None:
+    async def get_shipment_by_id(self, id: UUID) -> Shipment:
+        shipment = await self.repository.get_by_id(id)
+        if shipment is None:
             raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
-                detail="[Ghis]> The Customer with that email is not found!!",
+                status_code=status.HTTP_404_NOT_FOUND, detail="Shipment not found"
             )
+        return shipment
 
-        # Check Password
-        is_ok = self.pwd_context.verify(password, customer.hashed_password)
-        if not is_ok:
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
-                detail="[Ghis]> The Customer with that Password is incorrect!",
-            )
+    async def update_shipment(
+        self, id: UUID, shipment_update: ShipmentUpdate
+    ) -> Shipment:
+        """PATCH semantics: only the fields that were set are changed."""
+        shipment = await self.get_shipment_by_id(id)
 
-        # Data
-        data = {
-            "user": {
-                "name": customer.username,
-                "email": customer.email,
-                "id": customer.id,
-            }
-        }
+        changes = shipment_update.model_dump(exclude_unset=True, exclude_none=True)
+        if not changes:
+            return shipment
 
-        tk = generate_access_token(data)
+        for field, value in changes.items():
+            setattr(shipment, field, value)
 
-        return {"access_token": tk, "type": "jwt"}
+        return await self.repository.update(shipment)
 
-    async def get_customer_by_id(self, id: int):
-        db_customer = await self.repository.get_by_id(id)
-        if db_customer is None:
-            raise HTTPException(402, detail="email is already used!..")
-        return db_customer
+    async def delete_shipment(self, id: UUID) -> int:
+        """Delete a shipment and every order attached to it.
+
+        Returns the number of orders that were removed with it.
+        """
+        shipment = await self.get_shipment_by_id(id)
+
+        removed_orders = await self.order_repository.delete_by_shipment_id(shipment.id)
+        await self.repository.delete(shipment)
+
+        return removed_orders

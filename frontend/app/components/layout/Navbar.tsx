@@ -1,12 +1,12 @@
-import { Link, useRouter } from "@tanstack/react-router";
+import { Link, useNavigate } from "react-router";
 import { useEffect, useState } from "react";
-import { useAuth } from "../../contexts/AuthContext";
+import { useAuth } from "../../lib/auth-store";
 
 
 export default function Navbar() {
     const [scrolled, setScrolled] = useState(false);
     const { user, isAuthenticated, logout } = useAuth();
-    const router = useRouter();
+    const navigate = useNavigate();
 
     useEffect(() => {
         const onScroll = () => setScrolled(window.scrollY > 20);
@@ -16,7 +16,7 @@ export default function Navbar() {
 
     const handleLogout = () => {
         logout();
-        router.navigate({ to: "/" });
+        navigate("/");
     };
 
     return (

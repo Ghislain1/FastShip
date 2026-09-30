@@ -1,5 +1,5 @@
-import { Link } from "@tanstack/react-router";
-import { useInView } from "../../../hooks/use-in-view";
+import { Link } from "react-router";
+import { useInView } from "../../hooks/use-in-view";
 
 export function SellerCTASection() {
   const { ref, isInView } = useInView();

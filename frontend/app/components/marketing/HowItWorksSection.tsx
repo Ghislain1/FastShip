@@ -1,4 +1,4 @@
-import { useInView } from "../../../hooks/use-in-view";
+import { useInView } from "../../hooks/use-in-view";
 
 interface Step {
   number: string;

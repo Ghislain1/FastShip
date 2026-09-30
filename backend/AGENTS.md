@@ -71,7 +71,7 @@ Fixtures in `conftest.py` (setzt `os.environ["DATABASE_URL"] = "sqlite+aiosqlite
 Eine Richtung, `routers/` → `services/` → `models/` + `schemas/`.
 
 - `app/main.py` — Entrypoint (`[tool.fastapi] entrypoint="app.main:app"`). CORS, Prometheus-`Instrumentator` (`/metrics`), `CustomMiddleware`, vier Router, `/` als Healthcheck-Ziel, `/scalar` als API-Referenz. `lifespan` ruft `create_db_and_tables()` und dann `seed_db_if_empty()`.
-- `app/routers/` — dünne HTTP-Schicht, eine Domain pro Router: `auth_routes` (`/auth`), `seller_router` (`/sellers`), `order_routes` (`/order`), `shipment` (`/shipment`).
+- `app/routers/` — dünne HTTP-Schicht, eine Domain pro Router: `auth_routes` (`/auth`), `seller_router` (`/sellers`), `order_routes` (`/order`), `shipment` (`/shipments`).
 - `app/services/` — plain Klassen, die eine `AsyncSession` im Konstruktor bekommen. **Hier gehört die gesamte DB-Logik hin**; keine Queries direkt im Router-Body.
 - `app/models/` — SQLModel `table=True`. `app/schemas/` — Pydantic In/Out. Beides nötig; Models nicht direkt aus Routes zurückgeben.
 - `app/core/dependencies.py` — Service-DI über `@lru_cache`-dekorierte `get_*_service()` mit `Depends(get_async_session)`, exportiert als `Annotated`-Aliase (`SellerServiceDep`, `OrderServiceDep`, `ShipmentServiceDep`). Neue Services hier registrieren.

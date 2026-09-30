@@ -16,9 +16,10 @@
     "noUnusedParameters": true,
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true,
+    "rootDirs": [".", "./.react-router/types"],
     "paths": {
-      "~/*": ["./src/*"]
+      "~/*": ["./app/*"]
     }
   },
-  "include": ["src"]
+  "include": ["app", ".react-router/types"]
 }

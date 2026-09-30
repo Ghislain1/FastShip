@@ -1,19 +1,34 @@
-from uuid import UUID, uuid4
+from enum import Enum as PyEnum
 from typing import TYPE_CHECKING
+from uuid import UUID, uuid4
+
 from sqlmodel import Field, Relationship, SQLModel
 
 
 if TYPE_CHECKING:
-    from backend.app.models.order import Order  # adjust import path
+    from app.models.order import Order  # adjust import path
+
+
+class ShipmentStatus(str, PyEnum):
+    """Shipment lifecycle, per Dev.md."""
+
+    PENDING = "pending"
+    PROCESSING = "processing"
+    SHIPPED = "shipped"
+    IN_TRANSIT = "in_transit"
+    OUT_FOR_DELIVERY = "out_for_delivery"
+    DELIVERED = "delivered"
+    FAILED = "failed"
+    RETURNED = "returned"
 
 
 class ShipmentBase(SQLModel):
     """Can be used in schema domain"""
 
-    status: str  # TODO@Ghislain1 To be improve ShipmentEvent
-    weight: float
-    destination: str
-    tracking_number: str = Field(index=True)
+    status: ShipmentStatus = ShipmentStatus.PENDING
+    weight: float = Field(gt=0)
+    destination: str = Field(min_length=1, max_length=255)
+    tracking_number: str = Field(index=True, min_length=1, max_length=64)
 
 
 class Shipment(ShipmentBase, table=True):

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useInView } from "../../../hooks/use-in-view";
+import { useInView } from "../../hooks/use-in-view";
 
 export function TrackingSection() {
   const { ref, isInView } = useInView();

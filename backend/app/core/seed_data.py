@@ -12,34 +12,23 @@ from datetime import timedelta
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from ..models.order import Order
-from ..models.shipment import Shipment
+from ..models.shipment import Shipment, ShipmentStatus
 from ..repositories.order_repository import OrderRepository
 from ..repositories.shipment_repository import ShipmentRepository
 from .utils import get_datetime_utc
 
-# Shipment lifecycle, per Dev.md. Shipment.status is a plain `str` today; this
-# tuple is the single place the allowed values are spelled out.
-SHIPMENT_STATUSES = (
-    "pending",
-    "processing",
-    "shipped",
-    "in_transit",
-    "out_for_delivery",
-    "delivered",
-    "failed",
-    "returned",
-)
-
+# Every documented lifecycle stage appears at least once, so the seeded data
+# exercises the whole enum.
 # (status, weight_kg, destination, tracking_number, [order quantities])
-MOCK_SHIPMENTS: tuple[tuple[str, float, str, str, tuple[int, ...]], ...] = (
-    ("pending", 1.2, "Hamburg, DE", "FS1000000001", (1,)),
-    ("processing", 0.4, "Munich, DE", "FS1000000002", (2, 1)),
-    ("shipped", 3.8, "Berlin, DE", "FS1000000003", (1,)),
-    ("in_transit", 0.9, "Cologne, DE", "FS1000000004", (3,)),
-    ("out_for_delivery", 2.5, "Vienna, AT", "FS1000000005", (1,)),
-    ("delivered", 0.7, "Zurich, CH", "FS1000000006", (2,)),
-    ("failed", 5.1, "Paris, FR", "FS1000000007", (1,)),
-    ("returned", 1.6, "Amsterdam, NL", "FS1000000008", (4, 1)),
+MOCK_SHIPMENTS: tuple[tuple[ShipmentStatus, float, str, str, tuple[int, ...]], ...] = (
+    (ShipmentStatus.PENDING, 1.2, "Hamburg, DE", "FS1000000001", (1,)),
+    (ShipmentStatus.PROCESSING, 0.4, "Munich, DE", "FS1000000002", (2, 1)),
+    (ShipmentStatus.SHIPPED, 3.8, "Berlin, DE", "FS1000000003", (1,)),
+    (ShipmentStatus.IN_TRANSIT, 0.9, "Cologne, DE", "FS1000000004", (3,)),
+    (ShipmentStatus.OUT_FOR_DELIVERY, 2.5, "Vienna, AT", "FS1000000005", (1,)),
+    (ShipmentStatus.DELIVERED, 0.7, "Zurich, CH", "FS1000000006", (2,)),
+    (ShipmentStatus.FAILED, 5.1, "Paris, FR", "FS1000000007", (1,)),
+    (ShipmentStatus.RETURNED, 1.6, "Amsterdam, NL", "FS1000000008", (4, 1)),
 )
 
 

@@ -1,14 +1,14 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.core.seed_data import MOCK_SHIPMENTS, SHIPMENT_STATUSES, seed_mock_shipments
-from app.models.shipment import Shipment
+from app.core.seed_data import MOCK_SHIPMENTS, seed_mock_shipments
+from app.models.shipment import Shipment, ShipmentStatus
 from app.repositories.order_repository import OrderRepository
 from app.repositories.shipment_repository import ShipmentRepository
 
 
 def _shipment(**overrides) -> Shipment:
     defaults = {
-        "status": "delivered",
+        "status": ShipmentStatus.DELIVERED,
         "weight": 1.0,
         "destination": "Test, DE",
         "tracking_number": "TEST0001",
@@ -58,16 +58,16 @@ async def test_orders_reference_their_shipment(db: AsyncSession) -> None:
         assert order.updated_at is not None
 
 
-async def test_statuses_cover_the_documented_lifecycle(db: AsyncSession) -> None:
+async def test_every_lifecycle_stage_is_represented(db: AsyncSession) -> None:
     await seed_mock_shipments(db)
 
     seeded = {s.status for s in await ShipmentRepository(db).list(offset=0, limit=100)}
-    assert seeded == set(SHIPMENT_STATUSES)
+    assert seeded == set(ShipmentStatus)
 
 
-def test_mock_data_defines_no_unknown_status() -> None:
+def test_mock_data_uses_only_real_statuses() -> None:
     for row in MOCK_SHIPMENTS:
-        assert row[0] in SHIPMENT_STATUSES
+        assert row[0] in set(ShipmentStatus)
 
 
 def test_tracking_numbers_are_unique() -> None:

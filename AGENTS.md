@@ -97,13 +97,13 @@ Related: no `tsconfig.*.json` sets `strict`, so type errors are only caught wher
 Layered, one direction only: `routers/` → `services/` → `models/` + `schemas/`.
 
 - `app/main.py` — app entrypoint (`[tool.fastapi] entrypoint = "app.main:app"`). Assembles CORS, Prometheus `Instrumentator` (`/metrics`), `CustomMiddleware`, and four routers. Also serves `/` (healthcheck target) and `/scalar` (API docs). Startup `lifespan` runs `create_db_and_tables()` then `seed_db_if_empty()`, which creates the `FIRST_SUPERUSER` seller if that email is missing.
-- `app/routers/` — thin HTTP layer, one router per domain: `auth_routes` (`/auth`), `seller_router` (`/sellers`), `order_routes` (`/order`), `shipment` (`/shipment`).
+- `app/routers/` — thin HTTP layer, one router per domain: `auth_routes` (`/auth`), `seller_router` (`/sellers`), `order_routes` (`/order`), `shipment` (`/shipments`).
 - `app/services/` — plain classes constructed with an `AsyncSession`. All business logic and DB queries live here. **Router bodies should not query the DB directly**; add the method to the service.
 - `app/models/` — SQLModel `table=True` DB models. `app/schemas/` — pydantic in/out models. Both are required; don't return `models` directly from routes.
 - `app/core/dependencies.py` — service DI. Services are built by `@lru_cache`-decorated `get_*_service()` functions using `Depends(get_async_session)`, exposed as `Annotated` aliases (`SellerServiceDep`, `OrderServiceDep`, `ShipmentServiceDep`). Add new services here.
 - `app/core/db.py` — engine + `async_session_maker` + `get_async_session` (the override point for tests).
 
-Routes: `/`, `/metrics`, `/scalar`, `/auth/token`, `/auth/signup`, `/sellers/`, `/shipment/`, `/order/`.
+Routes: `/`, `/metrics`, `/scalar`, `/auth/token`, `/auth/signup`, `/sellers/`, `/shipments`, `/order/`.
 
 Frontend: React 19 + Vite 8 + Tailwind v4 (`@tailwindcss/vite`, no `tailwind.config.js` — theme lives in `src/styles.css`). TanStack Router file-based (`src/routes/` → `routeTree.gen.ts`) plus TanStack Query. Shadcn-style primitives in `src/components/ui/` (note the typo in `src/librarz/`). `eslint.config.js` exempts `src/routes/**` from `react-refresh/only-export-components`; component files are not exempt.
 
