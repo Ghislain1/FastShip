@@ -1,6 +1,5 @@
 #  passlib[bcrypt] must be installed
 from passlib.context import CryptContext
-from sqlmodel import select, func
 from fastapi.exceptions import HTTPException
 from starlette import status
 
@@ -9,6 +8,8 @@ from ..core.utils import generate_access_token
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from ..models.seller import Seller
+
+from ..repositories.seller_repository import SellerRepository
 
 from ..schemas.seller import SellerCreate
 
@@ -20,14 +21,14 @@ class SellerService:
         # Argon2 (no length limit, more modern)
         self.pwd_context = CryptContext(schemes=["argon2"], deprecated="auto")
         self.session = session
+        self.repository = SellerRepository(session)
 
     async def add_seller(self, seller_create: SellerCreate) -> Seller:
         """Create a new seller with hashed password"""
 
         # Check for duplicate email
-        statement = select(Seller).where(Seller.email == seller_create.email)
-        existing = await self.session.execute(statement=statement)
-        if existing.scalar() is not None:
+        existing = await self.repository.get_by_email(seller_create.email)
+        if existing is not None:
             raise HTTPException(
                 status_code=status.HTTP_409_CONFLICT,
                 detail="A seller with this email already exists",
@@ -40,31 +41,22 @@ class SellerService:
         seller_data = seller_create.model_dump()
         seller_data.pop("password", None)
         db_seller = Seller(**seller_data, hashed_password=hashed_password)
-        self.session.add(db_seller)
-        await self.session.commit()
-        await self.session.refresh(db_seller)
-        return db_seller
+        return await self.repository.add(db_seller)
 
     async def all(self, offset: int, limit: int) -> list[Seller]:
         """Load all sellers from database"""
 
-        statement = select(Seller).offset(offset).limit(limit)
-        results = await self.session.execute(statement=statement)
-        sellers = results.scalars().all()
-        return sellers
+        return await self.repository.list(offset, limit)
 
     async def get_sellers_count(self) -> int:
         """Provide the  total number of sellers"""
 
-        count_statement = select(func.count()).select_from(Seller)
-        count = await self.session.scalar(count_statement)
-        return count
+        return await self.repository.count()
 
     # @TODO
-    def get_seller_by_email(self, email: str):
+    async def get_seller_by_email(self, email: str):
         """Get seller  from database"""
-        statement = select(Seller)
-        db_seller = self.session.exec(statement.filter(Seller.email == email).first())
+        db_seller = await self.repository.get_by_email(email)
 
         if db_seller is not None:
             return HTTPException(402, detail="email is already used!..")
@@ -76,14 +68,7 @@ class SellerService:
     async def token(self, email, password) -> str:
         """Valide the credentials"""
 
-        condition_on_email = Seller.email == email
-        # Select the table like the name of method @TODO Ghis select from sqlmodel
-        statement = select(Seller).where(condition_on_email)
-
-        result = await self.session.execute(statement=statement)
-
-        # Represents One row from Seller Table
-        seller = result.scalar()
+        seller = await self.repository.get_by_email(email)
 
         if seller is None:
             raise HTTPException(
@@ -112,8 +97,8 @@ class SellerService:
 
         return {"access_token": tk, "type": "jwt"}
 
-    async def get_seller_by_id(self, id: int):
-        db_seller = await self.session.get(Seller, id)
+    async def get_seller_by_id(self, id):
+        db_seller = await self.repository.get_by_id(id)
         if db_seller is None:
             raise HTTPException(402, detail="email is already used!..")
         return db_seller

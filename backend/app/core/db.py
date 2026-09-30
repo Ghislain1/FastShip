@@ -1,11 +1,11 @@
 from typing import AsyncGenerator
 
 
-from sqlmodel import SQLModel, select
+from sqlmodel import SQLModel
 
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine, async_sessionmaker
 
-from app.models.seller import Seller
+from app.repositories.seller_repository import SellerRepository
 from app.schemas.seller import SellerCreate
 from app.services.seller_service import SellerService
 
@@ -31,10 +31,10 @@ async def create_db_and_tables():
 async def seed_db_if_empty() -> None:
     """Seed database with first superuser if it doesn't exist"""
     async with async_session_maker() as session:
+        seller_repository = SellerRepository(session)
+
         # Check if superuser already exists
-        super_user = await session.scalar(
-            select(Seller).where(Seller.email == settings.FIRST_SUPERUSER)
-        )
+        super_user = await seller_repository.get_by_email(settings.FIRST_SUPERUSER)
         if super_user is not None:
             return
 

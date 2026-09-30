@@ -12,10 +12,12 @@ os.environ["DATABASE_URL"] = "sqlite+aiosqlite:///:memory:"
 from app.core.db import get_async_session
 from app.main import app
 
+TEST_DATABASE_URL = "sqlite+aiosqlite:///:memory:"
+
 
 @pytest_asyncio.fixture(scope="function")
 async def db():
-    engine = create_async_engine(os.environ["DATABASE_URL"], echo=False)
+    engine = create_async_engine(TEST_DATABASE_URL, echo=False)
     async with engine.begin() as conn:
         await conn.run_sync(SQLModel.metadata.create_all)
     session_maker = async_sessionmaker(engine, expire_on_commit=False)

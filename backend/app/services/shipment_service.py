@@ -1,4 +1,3 @@
-#  passlib[bcrypt] must be installed
 from passlib.context import CryptContext
 from sqlmodel import select
 from fastapi.exceptions import HTTPException
@@ -9,6 +8,7 @@ from ..core.utils import generate_access_token
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from ..models.shipment import Shipment
+from ..repositories.shipment_repository import ShipmentRepository
 from ..schemas.shipment import ShipmentCreate
 
 
@@ -17,6 +17,7 @@ class ShipmentService:
         # Argon2 (no length limit, more modern)
         self.pwd_context = CryptContext(schemes=["argon2"], deprecated="auto")
         self.session = session
+        self.repository = ShipmentRepository(session)
 
     async def create_shipment(self, customer_create: ShipmentCreate) -> Shipment:
         """Create a new customer with hashed password"""
@@ -28,18 +29,12 @@ class ShipmentService:
         db_customer = Shipment.model_validate(
             customer_create, update={"hashed_password": hashed_password}
         )
-        self.session.add(db_customer)
-        await self.session.commit()
-        await self.session.refresh(db_customer)
-        return db_customer
+        return await self.repository.add(db_customer)
 
     async def load_shipments(self, offset: int, limit: int) -> list[Shipment]:
         """Load all customers from database"""
 
-        statement = select(Shipment).offset(offset).limit(limit)
-        results = await self.session.execute(statement=statement)
-        customers = results.scalars().all()
-        return customers
+        return await self.repository.list(offset, limit)
 
     # @TODO
     def get_customer_by_email(self, email: str):
@@ -95,7 +90,7 @@ class ShipmentService:
         return {"access_token": tk, "type": "jwt"}
 
     async def get_customer_by_id(self, id: int):
-        db_customer = await self.session.get(Shipment, id)
+        db_customer = await self.repository.get_by_id(id)
         if db_customer is None:
             raise HTTPException(402, detail="email is already used!..")
         return db_customer

@@ -1,13 +1,14 @@
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlmodel import select
 
 from ..models.order import Order
+
+from ..repositories.order_repository import OrderRepository
 
 
 class OrderService:
     def __init__(self, session: AsyncSession):
         self.session = session
+        self.repository = OrderRepository(session)
 
-    async def all(self):
-        statement = select(Order)
-        await self.session.execute(statement)
+    async def all(self) -> list[Order]:
+        return await self.repository.list()

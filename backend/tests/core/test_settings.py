@@ -1,12 +1,10 @@
-import os
-
 from app.core.config import Settings
 
 
 class TestSettings:
-    def test_default_database_url(self):
+    def test_default_database_url(self, monkeypatch):
         # Reload Settings to get fresh instance without env override
-        os.environ.pop("DATABASE_URL", None)
+        monkeypatch.delenv("DATABASE_URL", raising=False)
         settings = Settings()
         assert (
             settings.DATABASE_URL
