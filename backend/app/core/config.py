@@ -2,6 +2,13 @@
 from pydantic import EmailStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
+# postgresql+psycopg://user:password@localhost/dbname
+DATABASE_FOR_DOCKER = (
+    "postgresql+asyncio://postgres:fastship123@localhost:5432/fastship"
+)
+# aiosqlite
+DATABASE_FOR_LOCAL = "sqlite+aiosqlite:///fastship.db"
+
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
@@ -10,9 +17,7 @@ class Settings(BaseSettings):
         env_ignore_empty=True,
         extra="ignore",
     )
-    DATABASE_URL: str = (
-        "postgresql+asyncpg://postgres:fastship123@localhost:5432/fastship"
-    )
+    DATABASE_URL: str = DATABASE_FOR_LOCAL
     FIRST_SUPERUSER: EmailStr = "admin@admin.de"
     FIRST_SUPERUSER_PASSWORD: str = "admin"
     FIRST_SUPERUSER_NAME: str = "Admin"
