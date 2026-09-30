@@ -1,6 +1,6 @@
 ---
 description:  GHIS - Implement the requested feature in the existing FastAPI project.
-agent: plan 
+agent: build
 ---
 
 # Implement Feature
